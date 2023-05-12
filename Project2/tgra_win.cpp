@@ -14,7 +14,7 @@ LRESULT CALLBACK WinSunProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	}
 	return 0;
 }
-tgra_win::tgra_win(LPSTR name, int width, int height, HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
+tgra_win::tgra_win(LPCWSTR name, int width, int height, HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
 {
 	wndcls.cbClsExtra = 0;//类的额外内存，默认为0即可
 	wndcls.cbWndExtra = 0;//窗口的额外内存，默认为0即可
@@ -30,7 +30,7 @@ tgra_win::tgra_win(LPSTR name, int width, int height, HINSTANCE hInstance, HINST
 
 
 	//产生一个窗体，并返回该窗体的句柄，第一个参数必须为要创建的窗体的类名，第二个参数为窗体标题名
-	hwnd = CreateWindow(L"test", L"我的第一个窗口",
+	hwnd = CreateWindow(L"test", name,
 		WS_OVERLAPPEDWINDOW, CW_USEDEFAULT,
 		CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
 		NULL, NULL, hInstance, NULL);

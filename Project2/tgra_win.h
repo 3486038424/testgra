@@ -3,7 +3,7 @@
 class tgra_win
 {
 public:
-	tgra_win(LPSTR name, int width, int height, HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd);
+	tgra_win(LPCWSTR name, int width, int height, HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd);
 	int loop();
 private:
 	WNDCLASS wndcls;
