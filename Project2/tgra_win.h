@@ -1,9 +1,10 @@
+
 #pragma once
 #include<Windows.h>
 class tgra_win
 {
 public:
-	tgra_win(LPCWSTR name, int width, int height, HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd);
+	tgra_win(LPCWSTR name, int width, int height);
 	int loop();
 private:
 	WNDCLASS wndcls;
@@ -16,4 +17,3 @@ private:
 	BITMAPINFO info;
 	void* ptr;
 };
-

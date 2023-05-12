@@ -1,12 +1,9 @@
+
 #include"tgra_win.h"
 #include <time.h>
-
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd) {
-	tgra_win* l = new tgra_win(L"第0列", 1400, 800, hInstance, hPrevInstance, lpCmdLine, nShowCmd);
+#include<iostream>
+int main(int argc, LPCWSTR* argv[]) {
+	tgra_win* l = new tgra_win(L"第0列", 1400, 800);
 	l->loop();
 	return 0;
 }
-
-
-
-	
