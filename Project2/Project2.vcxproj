@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -140,15 +140,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="tgra_canvas.cpp" />
     <ClCompile Include="tgra_win.cpp" />
     <ClCompile Include="works.cpp" />
     <ClCompile Include="源.cpp" />
     <ClCompile Include="2d_draw.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="tgra_canvas.h" />
     <ClInclude Include="tgra_win.h" />
     <ClInclude Include="2d_draw.h" />
     <ClInclude Include="works.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Project2.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

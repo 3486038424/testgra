@@ -13,6 +13,7 @@ public:
 	int get_w() { return w; }
 	int get_h() { return h; }
 	void insert(decltype(m) t) { work.add(t); }
+private:
 	works work;
 	WNDCLASS wndcls;
 	HWND hwnd;
