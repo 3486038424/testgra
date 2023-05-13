@@ -21,9 +21,21 @@
     <ClCompile Include="tgra_win.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="2d_draw.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="works.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tgra_win.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="2d_draw.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="works.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

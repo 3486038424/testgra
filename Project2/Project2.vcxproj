@@ -88,6 +88,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -140,10 +141,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="tgra_win.cpp" />
+    <ClCompile Include="works.cpp" />
     <ClCompile Include="源.cpp" />
+    <ClCompile Include="2d_draw.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tgra_win.h" />
+    <ClInclude Include="2d_draw.h" />
+    <ClInclude Include="works.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

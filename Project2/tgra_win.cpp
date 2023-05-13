@@ -1,6 +1,6 @@
 
 #include "tgra_win.h"
-LRESULT CALLBACK WinSunProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK unload(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	switch (uMsg)//通过判断消息进行消息响应
 	{
@@ -15,7 +15,7 @@ LRESULT CALLBACK WinSunProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	}
 	return 0;
 }
-tgra_win::tgra_win(LPCWSTR name, int width, int height)
+tgra_win::tgra_win(LPCWSTR name, int width, int height,LPCWSTR class_name,decltype(unload) WinSunProc)
 {
 	HINSTANCE hInstance = GetModuleHandle(NULL);
 	wndcls.cbClsExtra = 0;//类的额外内存，默认为0即可
@@ -25,16 +25,16 @@ tgra_win::tgra_win(LPCWSTR name, int width, int height)
 	wndcls.hIcon = LoadIcon(NULL, IDI_ERROR);//设置窗体左上角的图标
 	wndcls.hInstance = hInstance;//设置窗体所属的应用程序实例
 	wndcls.lpfnWndProc = WinSunProc;//设置窗体的回调函数，暂时没写，先设置为NULL，后面补上
-	wndcls.lpszClassName = L"test";//设置窗体的类名
+	wndcls.lpszClassName = class_name;//设置窗体的类名
 	wndcls.lpszMenuName = NULL;//设置窗体的菜单,没有，填NULL
 	wndcls.style = CS_HREDRAW | CS_VREDRAW;//设置窗体风格为水平重画和垂直重画
 	RegisterClass(&wndcls);//向操作系统注册窗体
 
 
 	//产生一个窗体，并返回该窗体的句柄，第一个参数必须为要创建的窗体的类名，第二个参数为窗体标题名
-	hwnd = CreateWindow(L"test", name,
+	hwnd = CreateWindow(class_name, name,
 		WS_OVERLAPPEDWINDOW, CW_USEDEFAULT,
-		CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
+		CW_USEDEFAULT, width, height,
 		NULL, NULL, hInstance, NULL);
 
 	ShowWindow(hwnd, SW_SHOWNORMAL);//把窗体显示出来
@@ -60,8 +60,6 @@ tgra_win::tgra_win(LPCWSTR name, int width, int height)
 	ptr = malloc(width * height * 4);  // 4字节per像素
 }
 
-
-
 int tgra_win::loop()
 {
 
@@ -70,25 +68,14 @@ int tgra_win::loop()
 	//消息循环
 	while (GetMessage(&msg, NULL, 0, 0))//如果消息不是WM_QUIT,返回非零值；如果消息是WM_QUIT，返回零
 	{
+		int t = clock();
 		TranslateMessage(&msg);//翻译消息，如把WM_KEYDOWN和WM_KEYUP翻译成一个WM_CHAR消息
 		DispatchMessage(&msg);//派发消息	
-		int y = 0;
-		for (; y < h; y++) {
-			int offset = y * w;
-			for (int x = 0; x < w; x++) {
-				((int*)ptr)[offset + x] = RGB(125, 0, 0);
-			}
-		}
-		for (; y < h; y++) {
-			int offset = y * w;
-			for (int x = 0; x < w; x++) {
-				((int*)ptr)[offset + x] = RGB(0, 125, 0);
-			}
-		}
-
+		work.run();
 		// 把位图拷贝到屏幕上显示
 		SetDIBits(memDC, bitmap, 0, h, ptr, &info, DIB_RGB_COLORS);
 		BitBlt(screenDC, 0, 0, w, h, memDC, 0, 0, SRCCOPY);
+		std::cout << clock() - t << std::endl;
 	}
 
 	DeleteDC(memDC);
