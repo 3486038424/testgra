@@ -6,13 +6,13 @@
 tgra_win* l;
 void update()
 {
-	tg_DrawLine(l->get_w() / 2, l->get_h() / 2, l->get_w(), l->get_h(), l);
+	l->GetCanvas().tg_DrawLine(l->get_w() / 2, l->get_h() / 2, l->get_w(), l->get_h());
 }
 void u()
 {
-	tg_DrawLine(l->get_w() / 2, 0 , l->get_w(), l->get_h()/2, l);
+	l->GetCanvas().tg_DrawLine(l->get_w() / 2, 0 , l->get_w(), l->get_h()/2);
 }
-int main(int argc, LPCWSTR* argv[]) {
+int main() {
 	l = new tgra_win(L"µÚ0ÁĞ", 400, 400); 
 	l->insert(update);
 	l->insert(u);
