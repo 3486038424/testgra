@@ -5,7 +5,7 @@ tgra_win* l;
 
 void u()
 {
-	l->GetCanvas()->tg_DrawTrangle(0, 0, l->get_h() / 2, l->get_w(), 0, l->get_w());
+	l->GetCanvas()->tg_DrawTrangle(0, 0, l->get_h() / 10, l->get_w(), 0, l->get_w());
 	l->GetCanvas()->tg_DrawTrangle(0, 0, l->get_h() / 2, l->get_w(), l->get_h()/2, 0);
 }
 int main() {

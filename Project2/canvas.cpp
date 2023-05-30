@@ -154,41 +154,35 @@ int canvas::tg_DrawLine(float b_x, float b_y, float e_x, float e_y)
 }; 
 int canvas::tg_fill(std::vector<int*>* l1, std::vector<int*>* l2)
 {
-	int a = (*l1)[0][1];
-	int b = (*l2)[0][1];
 	if ((*l1)[0][1] > (*l2)[0][1]) { std::vector<int*>* l3 = l1; l1 = l2; l2 = l3; }
 	int i = 0, j = 0;
-
-	while (i < l1->size() && j < l2->size())
+	int t1 = 0,t2=0,offest, z, l1_s = l1->size(), l2_s = l2->size();
+	while ((*l1)[i][0] < (*l2)[j][0])
 	{
-		while ((*l1)[i][0] < (*l2)[j][0])
-		{
-			i++; if (i == l1->size())return 0;
-		}
+		i++; if (i == l1_s)return 0;
+	}
+	while (1)
+	{
 		while ((*l1)[i][0] > (*l2)[j][0])
 		{
-			j++; if (j == l2->size())return 0;
+			j++; if (j == l2_s)return 0;
 		}
-		for (int z = (*l1)[i][1]; z < (*l2)[j][1]; z++) {
-			ptr[(*l1)[i][0] * w + z] = RGB(0, 0, 125);
+		offest = (*l1)[i][0] * w;
+		for (z = (*l1)[i][1]; z < (*l2)[j][1]; z++) {
+			ptr[offest+ z] = RGB(0, 0, 125);
 		}
-		do { i++; if (i == l1->size())return 0; } while ((*l1)[i][0] == (*l1)[i - 1][0]);
+		do { i++; if (i == l1_s)return 0; } while ((*l1)[i][0] == (*l1)[i - 1][0]);
 	}
 	return 0;
 };
 
 int canvas::tg_DrawTrangle(int x1, int y1, int x2, int y2, int x3, int y3)
 {
-	int t = clock();
 	std::vector<int*>* l1 = line(x1, y1, x2, y2);
 	std::vector<int*>* l2 = line(x3, y3, x2, y2);
 	std::vector<int*>* l3 = line(x1, y1, x3, y3);
-	std::cout << clock() - t << std::endl;
-	t = clock();
 	tg_fill(l1, l2); 
 	tg_fill(l3, l2); 
 	tg_fill(l1, l3);
-
-	std::cout << clock() - t << std::endl;
 	return 0;
 }
