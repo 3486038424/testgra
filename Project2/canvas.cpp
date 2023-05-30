@@ -87,13 +87,26 @@ std::vector<int*>* canvas::line(float bx, float by, float ex, float ey)
 	}
 	return d;
 	*/
+	if (bx == ex) {
+		std::vector<int*>* d = new std::vector<int*>;
+		int dt = ey - by > 0 ? 1 : -1;
+		while (by < ey)
+		{
+			int* a = new int[2];
+			a[0] = bx;
+			a[1] = by;
+			by += dt;
+			d->push_back(a);
+		}
+		return d;
+	}
 	if (bx > ex) { swap(bx, ex); swap(by, ey); }
 	//std::cout << bx << ' ' << ex << std::endl;
+
 	float delta = (ey - by) / (1.0 * (ex - bx)),dy=by;
 	int c = 0;
 	if (delta < 0) { c = -1; }
 	else if (delta > 0) { c = 1; }
-	std::cout << c << std::endl;
 	std::vector<int*>* d = new std::vector<int*>;
 	float a1, a2, a3;
 	int bby = by;
@@ -126,6 +139,7 @@ std::vector<int*>* canvas::line(float bx, float by, float ex, float ey)
 		if (a[0] > ex)break;
 		d->push_back(a);
 	}
+
 	return d;
 	
 }
@@ -140,6 +154,8 @@ int canvas::tg_DrawLine(float b_x, float b_y, float e_x, float e_y)
 }; 
 int canvas::tg_fill(std::vector<int*>* l1, std::vector<int*>* l2)
 {
+	int a = (*l1)[0][1];
+	int b = (*l2)[0][1];
 	if ((*l1)[0][1] > (*l2)[0][1]) { std::vector<int*>* l3 = l1; l1 = l2; l2 = l3; }
 	int i = 0, j = 0;
 
@@ -163,11 +179,16 @@ int canvas::tg_fill(std::vector<int*>* l1, std::vector<int*>* l2)
 
 int canvas::tg_DrawTrangle(int x1, int y1, int x2, int y2, int x3, int y3)
 {
+	int t = clock();
 	std::vector<int*>* l1 = line(x1, y1, x2, y2);
 	std::vector<int*>* l2 = line(x3, y3, x2, y2);
 	std::vector<int*>* l3 = line(x1, y1, x3, y3);
+	std::cout << clock() - t << std::endl;
+	t = clock();
 	tg_fill(l1, l2); 
 	tg_fill(l3, l2); 
 	tg_fill(l1, l3);
+
+	std::cout << clock() - t << std::endl;
 	return 0;
 }

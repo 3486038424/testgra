@@ -44,7 +44,6 @@ int tgra_win::loop()
 	MSG msg;
 	while (GetMessage(&msg, NULL, 0, 0))//如果消息不是WM_QUIT,返回非零值；如果消息是WM_QUIT，返回零
 	{
-		int t = clock();
 		TranslateMessage(&msg);//翻译消息，如把WM_KEYDOWN和WM_KEYUP翻译成一个WM_CHAR消息
 		DispatchMessage(&msg);//派发消息	
 
@@ -62,7 +61,6 @@ int tgra_win::loop()
 		}
 		work.run();
 		screen.draw();
-		std::cout << clock() - t << std::endl;
 	}
 	return 0;
 }
