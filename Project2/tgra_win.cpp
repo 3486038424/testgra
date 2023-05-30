@@ -41,30 +41,28 @@ tgra_win::tgra_win(LPCWSTR name, int width, int height,LPCWSTR class_name, declt
 
 int tgra_win::loop()
 {
-
-	// 设置位图的像素颜色
 	MSG msg;
-	//消息循环
 	while (GetMessage(&msg, NULL, 0, 0))//如果消息不是WM_QUIT,返回非零值；如果消息是WM_QUIT，返回零
 	{
 		int t = clock();
 		TranslateMessage(&msg);//翻译消息，如把WM_KEYDOWN和WM_KEYUP翻译成一个WM_CHAR消息
 		DispatchMessage(&msg);//派发消息	
-		if (msg.message == WM_SIZE)
+
+		if (msg.message == 161)
 		{
 			switch (msg.wParam)
 			{
-			case SIZE_MINIMIZED:
-					break;
-			case SIZE_MAXIMIZED:
-				break;
-			case SIZE_RESTORED:
-				screen.reset(LOWORD(msg.lParam), HIWORD(msg.lParam));
-			break;
+			case 2:
+			case 9:
+			case 11:
+			case 15:
+			case 17:
+				screen.reset(LOWORD(msg.lParam),HIWORD(msg.lParam));
 			}
 		}
 		work.run();
 		screen.draw();
+		std::cout << clock() - t << std::endl;
 	}
 	return 0;
 }

@@ -141,18 +141,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="canvas.cpp" />
-    <ClCompile Include="tgra_canvas.cpp" />
     <ClCompile Include="tgra_win.cpp" />
     <ClCompile Include="works.cpp" />
     <ClCompile Include="源.cpp" />
-    <ClCompile Include="2d_draw.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="canvas.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="tgra_canvas.h" />
     <ClInclude Include="tgra_win.h" />
-    <ClInclude Include="2d_draw.h" />
     <ClInclude Include="works.h" />
   </ItemGroup>
   <ItemGroup>

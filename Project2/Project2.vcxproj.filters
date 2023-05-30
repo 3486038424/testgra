@@ -21,13 +21,7 @@
     <ClCompile Include="tgra_win.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="2d_draw.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="works.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="tgra_canvas.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="canvas.cpp">
@@ -38,16 +32,10 @@
     <ClInclude Include="tgra_win.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="2d_draw.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="works.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="tgra_canvas.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="canvas.h">
