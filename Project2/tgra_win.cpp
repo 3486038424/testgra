@@ -36,7 +36,7 @@ tgra_win::tgra_win(LPCWSTR name, int width, int height,LPCWSTR class_name, declt
 
 	ShowWindow(hwnd, SW_SHOWNORMAL);//把窗体显示出来
 	UpdateWindow(hwnd);//更新窗体
-	screen.init(hwnd,width,height);
+	screen.init(hwnd);
 }
 
 int tgra_win::loop()
@@ -57,7 +57,7 @@ int tgra_win::loop()
 			case 11:
 			case 15:
 			case 17:
-				screen.reset(LOWORD(msg.lParam),HIWORD(msg.lParam));
+				screen.reset();
 			}
 		}
 		work.run();

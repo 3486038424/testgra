@@ -27,6 +27,12 @@
     <ClCompile Include="canvas.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="tg_vec2d.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="tg_vec3d.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tgra_win.h">
@@ -39,6 +45,12 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="canvas.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="tg_vec2d.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="tg_vec3d.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

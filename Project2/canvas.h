@@ -1,6 +1,7 @@
 #pragma once
 #include<Windows.h>
 #include<vector>
+#include"tg_vec2d.h"
 class canvas
 {
 	int w, h;
@@ -10,7 +11,7 @@ class canvas
 	BITMAPINFO info;
 	int* ptr;
 	HWND hwnd;
-	std::vector<int*> *line(float bx, float by, float ex, float ey);
+	tg_vec2d *line(float bx, float by, float ex, float ey,int& l_s);
 public:
 	int get_h() { return h-1; }
 	int get_w() { return w-1; }
@@ -20,12 +21,12 @@ public:
 		DeleteObject(bitmap);
 		ReleaseDC(NULL, screenDC);
 	}
-	int reset(int width,int height);
-	int init(HWND hwnd, int width, int height);
+	int reset();
+	int init(HWND hwnd);
 	int draw();
-	int tg_DrawLine(float b_x, float b_y, float e_x, float e_y);
-	int tg_fill(std::vector<int*>* l1, std::vector<int*>* l2);
+	int tg_DrawLine(tg_vec2d begin, tg_vec2d end);
+	int tg_fill(tg_vec2d* l1, tg_vec2d* l2, int& l1_s, int& l2_s);
 	int tg_DrawRect(int b_x, int b_y, int e_x, int e_y);
-	int tg_DrawTrangle(int x1, int y1, int x2, int y2, int x3, int y3);
+	int tg_DrawTrangle(tg_vec2d v1, tg_vec2d v2, tg_vec2d v3);
 };
 

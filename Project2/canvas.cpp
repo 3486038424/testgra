@@ -1,8 +1,8 @@
 #include "canvas.h"
 #include <iostream>
-int canvas::init(HWND hwnd,int width,int height)
+int canvas::init(HWND hwnd)
 {
-
+	int width, height;
 	RECT clientRect;
 	GetClientRect(hwnd, &clientRect);
 	width = clientRect.right;
@@ -30,8 +30,9 @@ int canvas::draw()
 	BitBlt(screenDC, 0, 0, w, h, memDC, 0, 0, SRCCOPY);
 	return 0;
 }
-int canvas::reset(int width,int height)
+int canvas::reset()
 {
+	int width,height;
 	RECT clientRect;
 	GetClientRect(hwnd, &clientRect);
 	width = clientRect.right;
@@ -53,50 +54,29 @@ int canvas::reset(int width,int height)
 	return 0;
 }
 
-int canvas::tg_DrawRect(int b_x, int b_y, int e_x, int e_y)
-{
-	for (int i = b_x; i < e_x; i++)
-	{
-		int offset = i * w;
-		for (int j = b_y; j < e_y; j++)
-		{
-			ptr[offset + j] = RGB(255, 0, 0);
-		}
-	}
-	return 0;
-}; 
-void swap(float& a,float& b)
+void swap(float& a, float& b)
 {
 	float c = a;
-	a = b; 
+	a = b;
 	b = c;
 }
-std::vector<int*>* canvas::line(float bx, float by, float ex, float ey)
+void swap(int& a, int& b)
 {
-	/*
-	float delta = (ey - by) / (1.0 * (ex - bx));
-	std::vector<int*>* d = new std::vector<int*>;
-	while (bx <= ex)
-	{
-		int* a = new int[2];
-		a[0] = bx;
-		a[1] = by;
-		bx++;
-		by += delta;
-		d->push_back(a);
-	}
-	return d;
-	*/
+	int c = a;
+	a = b;
+	b = c;
+}
+tg_vec2d* canvas::line(float bx, float by, float ex, float ey,int &l_s)
+{
 	if (bx == ex) {
-		std::vector<int*>* d = new std::vector<int*>;
+		tg_vec2d* d = new tg_vec2d[ey-by+5];
 		int dt = ey - by > 0 ? 1 : -1;
 		while (by < ey)
 		{
-			int* a = new int[2];
-			a[0] = bx;
-			a[1] = by;
 			by += dt;
-			d->push_back(a);
+			d[l_s].x = bx;
+			d[l_s].y = by;
+			l_s++;
 		}
 		return d;
 	}
@@ -107,12 +87,11 @@ std::vector<int*>* canvas::line(float bx, float by, float ex, float ey)
 	int c = 0;
 	if (delta < 0) { c = -1; }
 	else if (delta > 0) { c = 1; }
-	std::vector<int*>* d = new std::vector<int*>;
+	tg_vec2d* d = new tg_vec2d[w + h+5];
 	float a1, a2, a3;
 	int bby = by;
 	while (1)
 	{
-		int* a = new int[2];
 		a1 = (bby + c) - dy;
 		a2 = (bby)-dy - delta;
 		a3 = (bby + c) - dy - delta;
@@ -134,55 +113,62 @@ std::vector<int*>* canvas::line(float bx, float by, float ex, float ey)
 			if (a2 < a3) { bx++;dy += delta;}
 			else { bx++; bby+=c;dy += delta;}
 		}
-		a[0] = bx;
-		a[1] = bby;
-		if (a[0] > ex)break;
-		d->push_back(a);
+		if (bx > ex)break;
+		d[l_s].x=bx;
+		d[l_s].y = bby;
+		l_s++;
 	}
 
 	return d;
 	
 }
-int canvas::tg_DrawLine(float b_x, float b_y, float e_x, float e_y)
+
+int canvas::tg_DrawLine(tg_vec2d begin, tg_vec2d end)
 {
-	std::vector<int*>* d = line(b_x, b_y, e_x, e_y);
-	for (auto it = d->begin(); it != d->end(); it++)
+	int l_s=0;
+	tg_vec2d* d = line(begin.x, begin.y, end.x, end.y,l_s);
+	for (auto it = 0; it != l_s; it++)
 	{
-		ptr[(*it)[0] * w + (*it)[1]] = RGB(255, 0, 0);
+		ptr[int(d[it].x * w + d[it].y)] = RGB(255, 0, 0);
 	}
+	delete d;
 	return 0;
 }; 
-int canvas::tg_fill(std::vector<int*>* l1, std::vector<int*>* l2)
+int canvas::tg_fill(tg_vec2d* l1, tg_vec2d* l2,int &l1_s,int &l2_s)
 {
-	if ((*l1)[0][1] > (*l2)[0][1]) { std::vector<int*>* l3 = l1; l1 = l2; l2 = l3; }
+	if (l1[0].y > l2[0].y) { auto l3 = l1; l1 = l2; l2 = l3; swap(l1_s, l2_s); }
 	int i = 0, j = 0;
-	int t1 = 0,t2=0,offest, z, l1_s = l1->size(), l2_s = l2->size();
-	while ((*l1)[i][0] < (*l2)[j][0])
+	int t1 = 0,t2=0,offest, z;
+	while (l1[i].x < l2[j].x)
 	{
 		i++; if (i == l1_s)return 0;
 	}
 	while (1)
 	{
-		while ((*l1)[i][0] > (*l2)[j][0])
+		while (l1[i].x > l2[j].x)
 		{
 			j++; if (j == l2_s)return 0;
 		}
-		offest = (*l1)[i][0] * w;
-		for (z = (*l1)[i][1]; z < (*l2)[j][1]; z++) {
+		offest = l1[i].x * w;
+		for (z = l1[i].y; z < l2[j].y; z++) {
 			ptr[offest+ z] = RGB(0, 0, 125);
 		}
-		do { i++; if (i == l1_s)return 0; } while ((*l1)[i][0] == (*l1)[i - 1][0]);
+		do { i++; if (i == l1_s)return 0; } while (l1[i].x == l1[i - 1].x);
 	}
 	return 0;
 };
 
-int canvas::tg_DrawTrangle(int x1, int y1, int x2, int y2, int x3, int y3)
+int canvas::tg_DrawTrangle(tg_vec2d v1, tg_vec2d v2, tg_vec2d v3)
 {
-	std::vector<int*>* l1 = line(x1, y1, x2, y2);
-	std::vector<int*>* l2 = line(x3, y3, x2, y2);
-	std::vector<int*>* l3 = line(x1, y1, x3, y3);
-	tg_fill(l1, l2); 
-	tg_fill(l3, l2); 
-	tg_fill(l1, l3);
+	int ls1 = 0, ls2 = 0, ls3 = 0;
+	tg_vec2d* l1 = line(v1.x, v1.y, v2.x, v2.y,ls1);
+	tg_vec2d* l2 = line(v3.x, v3.y, v2.x, v2.y,ls2);
+	tg_vec2d* l3 = line(v1.x, v1.y, v3.x, v3.y,ls3);
+	tg_fill(l1, l2,ls1,ls2); 
+	tg_fill(l3, l2,ls3,ls2); 
+	tg_fill(l1, l3,ls1,ls3);
+	delete l1;
+	delete l2;
+	delete l3;
 	return 0;
 }
