@@ -28,6 +28,7 @@ int canvas::init(HWND hwnd)
 }
 int canvas::draw()
 {
+	std::cout << k << '\n';
 	SetDIBits(memDC, bitmap, 0, h, ptr, &info, DIB_RGB_COLORS);
 	BitBlt(screenDC, 0, 0, w, h, memDC, 0, 0, SRCCOPY);
 	return 0;
@@ -119,23 +120,27 @@ int canvas::tg_DrawLine(tg_vec2d begin, tg_vec2d end)
 	delete d;
 	return 0;
 }; 
-int canvas::get_color(tg_vec3d& b, tg_vec3d& e, tg_vec2d& t,float z)
+bool canvas::get_color(tg_vec3d& b, tg_vec3d& e, tg_vec2d& t,float z,int &rgb)
 {
 	tg_vec3d k(b);
+	k.z += (e.z - b.z) * z;
+	if (k.z<0||(z_ptr[int(t.x * w + t.y)] != -1 &&z_ptr[int(t.x * w + t.y)]<k.z ))return 0;
 	k.x += (e.x - b.x) * z;
 	k.y += (e.y - b.y) * z;
-	k.z += (e.z - b.z) * z;
-	if (k.z<0||(z_ptr[int(t.x * w + t.y)] != -1 &&z_ptr[int(t.x * w + t.y)]<k.z ))return ptr[int(t.x * w + t.y)];
 	z_ptr[int(t.x * w + t.y)] = k.z;
-	return RGB(255, 0, 255-k.z);
+	rgb = RGB(255, 0, 255 - k.z);
+	return 1;
 }
 int canvas::tg_DrawLine3d(tg_vec3d begin, tg_vec3d end)
 {
 	int l_s = 0;
 	tg_vec2d* d = line(begin, end, l_s);
+	int rgb;
 	for (int it = 0; it != l_s; it++)
 	{
-		ptr[int(d[it].x * w + d[it].y)] = get_color(begin,end,d[it],it/(l_s*1.0));
+		k++;
+		if(get_color(begin, end, d[it], it / (l_s * 1.0),rgb))
+			ptr[int(d[it].x * w + d[it].y)] = rgb;
 	}
 	if(l_s>1)delete d;
 	return 0;
@@ -180,16 +185,11 @@ int canvas::tg_fill_3(tg_vec3d* l1, tg_vec3d* l2, int l1_s, int l2_s)
 		{
 			j++; if (j == l2_s)return 0;
 		}
-		std::cout << l1[i].x << ' ' << l2[i].x << ' ';
-		std::cout << l1[i].y << ' ' << l2[i].y << ' ';
-		std::cout << l1[i].z << ' ' << l2[i].z << '\n';
-
 		tg_DrawLine3d(l1[i], l2[j]);
 		do { i++; if (i == l1_s)return 0; } while (l1[i].x == l1[i - 1].x);
 	}
 	return 0;
 };
-
 int canvas::tg_DrawTriangle(tg_vec2d v1, tg_vec2d v2, tg_vec2d v3)
 {
 	int ls1 = 0, ls2 = 0, ls3 = 0;

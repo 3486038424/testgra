@@ -61,9 +61,13 @@ int tgra_win::loop()
 			}
 		}
 		screen.clear();
+		std::cout << clock() - t << ' ';
+		t = clock();
 		work.run();
+		std::cout << clock() - t << ' ';
+		t = clock();
 		screen.draw();
-		std::cout << 1000/(clock() - t) << std::endl;
+		std::cout << clock() - t << std::endl;
 	}
 	return 0;
 }

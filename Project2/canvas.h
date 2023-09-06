@@ -16,6 +16,7 @@ private:
 	int* ptr;
 	int* z_ptr;
 	HWND hwnd;
+	int k;
 	tg_vec2d* line(tg_vec2d begin, tg_vec2d end, int& l_s);
 public:
 	int get_h() { return h-1; }
@@ -37,11 +38,12 @@ public:
 	int tg_DrawTriangle(tg_vec2d v1, tg_vec2d v2, tg_vec2d v3);
 	int tg_DrawTriangle_3d(tg_vec3d v1, tg_vec3d v2, tg_vec3d v3);
 	int tg_fill_3(tg_vec3d* l1, tg_vec3d* l2, int l1_s, int l2_s);
-	int get_color(tg_vec3d& b, tg_vec3d& e, tg_vec2d& t, float z);
+	bool get_color(tg_vec3d& b, tg_vec3d& e, tg_vec2d& t, float z, int& rgb);
 	int clear()
 	{
+		k = 0;
 		frameCount++;
-		for (int i = 0; i < h; i++)for (int j = 0; j < w; j++) { ptr[int(i * w + j)] = RGB(255, 255, 255); z_ptr[int(i * w + j)] = -1;}
+		for (int i = 0; i < h*w; i++) { ptr[(i)] = RGB(255, 255, 255); z_ptr[i] = -1;}
 		return 0;
 	};
 };
