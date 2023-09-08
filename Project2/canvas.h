@@ -18,11 +18,13 @@ private:
 	HWND hwnd;
 	int k;
 	tg_vec2d* line(tg_vec2d begin, tg_vec2d end, int& l_s);
+	tg_vec2d* line_2(tg_vec2d begin, tg_vec2d end, int& l_s);
+	bool get_color_2(tg_vec2d& b, tg_vec2d& e, int z, int offset);
 public:
-	int get_h() { return h-1; }
-	int get_w() { return w-1; }
+	int get_h() { return h - 1; }
+	int get_w() { return w - 1; }
 	int* getptr() { return ptr; }
-	~canvas(){
+	~canvas() {
 		DeleteDC(memDC);
 		DeleteObject(bitmap);
 		ReleaseDC(NULL, screenDC);
@@ -43,7 +45,7 @@ public:
 	{
 		k = 0;
 		frameCount++;
-		for (int i = 0; i < h*w; i++) { ptr[(i)] = RGB(255, 255, 255); z_ptr[i] = -1;}
+		for (int i = 0; i < h * w; i++) { ptr[(i)] = RGB(255, 255, 255); z_ptr[i] = -1; }
 		return 0;
 	};
 };
