@@ -2,6 +2,8 @@
 #include<Windows.h>
 #include<vector>
 #include"tg_vec2d.h"
+#include "Image.h"
+
 template<typename T>
 void swap(T& a, T& b);
 class canvas
@@ -24,6 +26,7 @@ public:
 	int get_h() { return h - 1; }
 	int get_w() { return w - 1; }
 	int* getptr() { return ptr; }
+	void drawpic(Image img);
 	~canvas() {
 		DeleteDC(memDC);
 		DeleteObject(bitmap);
@@ -39,7 +42,6 @@ public:
 	int tg_DrawRect(int b_x, int b_y, int e_x, int e_y);
 	int tg_DrawTriangle(tg_vec2d v1, tg_vec2d v2, tg_vec2d v3);
 	int tg_DrawTriangle_3d(tg_vec3d v1, tg_vec3d v2, tg_vec3d v3);
-	int tg_fill_3(tg_vec3d* l1, tg_vec3d* l2, int l1_s, int l2_s);
 	bool get_color(tg_vec3d& b, tg_vec3d& e, tg_vec2d& t, float z, int& rgb);
 	int clear()
 	{

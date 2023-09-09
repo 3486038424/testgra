@@ -141,6 +141,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="canvas.cpp" />
+    <ClCompile Include="Image.cpp" />
+    <ClCompile Include="lodepng.cpp" />
     <ClCompile Include="tgra_win.cpp" />
     <ClCompile Include="tg_vec2d.cpp" />
     <ClCompile Include="tg_vec3d.cpp" />
@@ -149,6 +151,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="canvas.h" />
+    <ClInclude Include="Image.h" />
+    <ClInclude Include="lodepng.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="tgra_win.h" />
     <ClInclude Include="tg_vec2d.h" />

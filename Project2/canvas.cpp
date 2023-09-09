@@ -1,5 +1,17 @@
 #include "canvas.h"
 #include <iostream>
+void canvas::drawpic(Image img)
+{
+	for (int i = 0; i<img.height; i++)
+	{
+		int offset = (h-i-1) * w;
+		int o = i * img.width;
+		for (int j = 0; j < img.width; j++)
+		{
+			ptr[offset + j] = img.get_color(o+j);
+		}
+	}
+}
 int canvas::init(HWND hwnd)
 {
 	frameCount = 0;
@@ -28,7 +40,6 @@ int canvas::init(HWND hwnd)
 }
 int canvas::draw()
 {
-	std::cout << k << '\n';
 	SetDIBits(memDC, bitmap, 0, h, ptr, &info, DIB_RGB_COLORS);
 	BitBlt(screenDC, 0, 0, w, h, memDC, 0, 0, SRCCOPY);
 	return 0;
@@ -209,27 +220,6 @@ int canvas::tg_fill(tg_vec2d* l1, tg_vec2d* l2, int l1_s, int l2_s)
 	}
 	return 0;
 };
-int canvas::tg_fill_3(tg_vec3d* l1, tg_vec3d* l2, int l1_s, int l2_s)
-{
-	if (l1[0].y > l2[0].y) { swap(l2, l1); swap(l1_s, l2_s); }
-
-	int i = 0, j = 0;
-	int t1 = 0, t2 = 0, offest, z;
-	while (l1[i].x < l2[j].x)
-	{
-		i++; if (i == l1_s)return 0;
-	}
-	while (1)
-	{
-		while (l1[i].x > l2[j].x)
-		{
-			j++; if (j == l2_s)return 0;
-		}
-		tg_DrawLine3d(l1[i], l2[j]);
-		do { i++; if (i == l1_s)return 0; } while (l1[i].x == l1[i - 1].x);
-	}
-	return 0;
-};
 int canvas::tg_DrawTriangle(tg_vec2d v1, tg_vec2d v2, tg_vec2d v3)
 {
 	int ls1 = 0, ls2 = 0, ls3 = 0;
@@ -260,9 +250,9 @@ int canvas::tg_DrawTriangle_3d(tg_vec3d v1, tg_vec3d v2, tg_vec3d v3)
 	while (len1 < ls3)
 	{
 		int offset = l3[len1].y * w;
-		for (int y = l3[len1].x; y != l1[len2].x; y+=d)
+		for (int x = l3[len1].x; x != l1[len2].x; x+=d)
 		{
-			get_color_2(l3[len1], l1[len2], y, offset + y);
+			get_color_2(l3[len1], l1[len2], x, offset + x);
 		}
 		do { len1++; } while (len1 < ls3 && l3[len1].y == l3[len1 - 1].y);
 		do { len2++; } while (len2 < ls1 && l1[len2].y != l3[len1].y);
@@ -289,23 +279,6 @@ int canvas::tg_DrawTriangle_3d(tg_vec3d v1, tg_vec3d v2, tg_vec3d v3)
 	delete l1;
 	delete l2;
 	delete l3;
-	/*
-	int ls1 = 0, ls2 = 0, ls3 = 0;
-	tg_vec3d* l1 = line_3(v1, v2, ls1);
-	tg_vec3d* l2 = line_3(v3, v2, ls2);
-	tg_vec3d* l3 = line_3(v1, v3, ls3);
-	tg_fill_3(l1, l2, ls1, ls2);
-	tg_fill_3(l3, l2, ls3, ls2);
-	tg_fill_3(l1, l3, ls1, ls3);
-	delete l1;
-	delete l2;
-	delete l3;
-	/*
-	int ls = 0;
-	tg_vec3d* l1 = line_3(v2, v3, ls);
-	for (int i = 0; i < ls; i++)tg_DrawLine3d(l1[i], v1);
-
-
-	*/
 	return 0;
 }
+
