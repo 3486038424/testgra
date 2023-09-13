@@ -7,8 +7,12 @@
 
 
 Image::Image(const char* str) {
-	unsigned error = lodepng::decode(image, width, height, str, LCT_RGB, 8);
-
+	std::vector<unsigned char> img;
+	unsigned error = lodepng::decode(img, width, height, str, LCT_RGB, 8);
+	len = img.size()/3;
+	image=(int*)malloc(len * 4);
+	for (int i = 0; i < len; i++)
+		image[i] = RGB(img[i*3+2],img[i*3+1],img[i*3]);
 	if (error) {
 		std::cout << "error " << error << ": " << lodepng_error_text(error) << std::endl;
 		return;
@@ -16,7 +20,7 @@ Image::Image(const char* str) {
 }
 
 
-int Image::get_color(int k) { if (k > image.size() || k < 0)return RGB(255, 255, 255); return 65536*image[k * 3+0]+256* image[k * 3 + 1]+ image[k * 3 + 2]; }
+int Image::get_color(int k) { if (k > len || k < 0)return RGB(255, 255, 255); return image[k]; }
 
 
 /*
