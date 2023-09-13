@@ -1,15 +1,19 @@
+#pragma once
 #include"tgra_win.h"
 #include <time.h>
 #include<iostream>
 tgra_win* l;
+Image i("E://t.png");
+int k = 0;
 	void u()
 	{
+		
 		int t = clock();
-		/*
-		l->GetCanvas()->tg_DrawLine(tg_vec2d(10, 100), tg_vec2d(100, 100));
-		*/
+		
 		l->GetCanvas()->tg_DrawTriangle_3d(tg_vec3d(100, 100, 120), tg_vec3d(300, 300, 120), tg_vec3d(100, 300, 120));
 		l->GetCanvas()->tg_DrawTriangle_3d(tg_vec3d(100, 100, 120), tg_vec3d(300, 300, 120), tg_vec3d(300, 100, 120));
+
+
 		l->GetCanvas()->tg_DrawTriangle_3d(tg_vec3d(100, 100, 200), tg_vec3d(300, 300, 200), tg_vec3d(100, 300, 200));
 		l->GetCanvas()->tg_DrawTriangle_3d(tg_vec3d(100, 100, 200), tg_vec3d(300, 300, 200), tg_vec3d(300, 100, 200));
 
@@ -20,26 +24,20 @@ tgra_win* l;
 		l->GetCanvas()->tg_DrawTriangle_3d(tg_vec3d(100, 100, 120), tg_vec3d(300, 100, 200), tg_vec3d(300, 100, 120));
 		l->GetCanvas()->tg_DrawTriangle_3d(tg_vec3d(100, 100, 120), tg_vec3d(300, 100, 200), tg_vec3d(100, 100, 200));
 
-
 		l->GetCanvas()->tg_DrawTriangle_3d(tg_vec3d(300, 300, 120), tg_vec3d(100, 300, 200), tg_vec3d(100, 300, 120));
 		l->GetCanvas()->tg_DrawTriangle_3d(tg_vec3d(300, 300, 120), tg_vec3d(100, 300, 200), tg_vec3d(300, 300, 200));
 
 		l->GetCanvas()->tg_DrawTriangle_3d(tg_vec3d(300, 300, 120), tg_vec3d(300, 100, 200), tg_vec3d(300, 100, 120));
 		l->GetCanvas()->tg_DrawTriangle_3d(tg_vec3d(300, 300, 120), tg_vec3d(300, 100, 200), tg_vec3d(300, 300, 200));
+		k++;
 
 
-		l->GetCanvas()->tg_DrawTriangle_3d(tg_vec3d(100, 100, 120), tg_vec3d(300, 300, 120), tg_vec3d(100, 300, 120));
-		l->GetCanvas()->tg_DrawTriangle_3d(tg_vec3d(100, 100, 120), tg_vec3d(300, 300, 120), tg_vec3d(300, 100, 120));
-		
-		std::cout << clock() - t << std::endl;
+		l->GetCanvas()->drawpic(i);
 	}
-	void ex(tg_vec3d z,tg_vec3d t)
-	{
-		swap(z, t);
-	}
+
 int main() {
 	
-	l = new tgra_win(L"第0列", 400, 400);
+	l = new tgra_win(L"第0列", 700, 1000);
 	l->insert(u);
 	l->loop();
 	

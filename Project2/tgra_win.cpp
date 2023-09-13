@@ -36,6 +36,7 @@ tgra_win::tgra_win(LPCWSTR name, int width, int height,LPCWSTR class_name, declt
 
 	ShowWindow(hwnd, SW_SHOWNORMAL);//把窗体显示出来
 	UpdateWindow(hwnd);//更新窗体
+	UpdateWindow(hwnd);//更新窗体
 	screen.init(hwnd);
 }
 
@@ -61,11 +62,7 @@ int tgra_win::loop()
 			}
 		}
 		screen.clear();
-		std::cout << clock() - t << ' ';
-		t = clock();
 		work.run();
-		std::cout << clock() - t << ' ';
-		t = clock();
 		screen.draw();
 		std::cout << clock() - t << std::endl;
 	}
