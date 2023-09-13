@@ -3,11 +3,11 @@
 #include <time.h>
 #include<iostream>
 tgra_win* l;
-Image i("E://t.png");
+Image i("C://10.png");
 int k = 0;
 	void u()
 	{
-		
+		/*
 		int t = clock();
 		
 		l->GetCanvas()->tg_DrawTriangle_3d(tg_vec3d(100, 100, 120), tg_vec3d(300, 300, 120), tg_vec3d(100, 300, 120));
@@ -30,14 +30,13 @@ int k = 0;
 		l->GetCanvas()->tg_DrawTriangle_3d(tg_vec3d(300, 300, 120), tg_vec3d(300, 100, 200), tg_vec3d(300, 100, 120));
 		l->GetCanvas()->tg_DrawTriangle_3d(tg_vec3d(300, 300, 120), tg_vec3d(300, 100, 200), tg_vec3d(300, 300, 200));
 		k++;
-
-
-		l->GetCanvas()->drawpic(i);
+		*/
+		l->GetCanvas()->drawpic(i,-100,-100,500,700);
 	}
 
 int main() {
 	
-	l = new tgra_win(L"第0列", 700, 1000);
+	l = new tgra_win(L"第0列", 600, 700);
 	l->insert(u);
 	l->loop();
 	

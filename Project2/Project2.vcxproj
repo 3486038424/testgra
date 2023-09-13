@@ -141,6 +141,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="canvas.cpp" />
+    <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="lodepng.cpp" />
     <ClCompile Include="tgra_win.cpp" />
@@ -151,6 +152,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="canvas.h" />
+    <ClInclude Include="Graphics.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="lodepng.h" />
     <ClInclude Include="resource.h" />
