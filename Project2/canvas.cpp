@@ -17,23 +17,19 @@ int canvas::init(HWND hwnd)
 	height = clientRect.bottom;
 	this->hwnd = hwnd;
 	screenDC = GetDC(hwnd);
-	memDC = CreateCompatibleDC(screenDC);
-	bitmap = CreateCompatibleBitmap(screenDC, width, height);
-	SelectObject(memDC, bitmap);
 	info.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
 	info.bmiHeader.biWidth = width;
 	info.bmiHeader.biHeight = height;
 	info.bmiHeader.biPlanes = 1;
 	info.bmiHeader.biBitCount = 32;  // 使用32位像素格式
 	info.bmiHeader.biCompression = BI_RGB;
-	GetDIBits(memDC, bitmap, width, height, NULL, &info, DIB_RGB_COLORS);
 	gra.init(width, height);
 	return 0;
 }
 int canvas::draw()
 {
-	SetDIBits(memDC, bitmap, 0, gra.get_h()+1, gra.getptr(), &info, DIB_RGB_COLORS);
-	BitBlt(screenDC, 0, 0, gra.get_w() + 1, gra.get_h()+1, memDC, 0, 0, SRCCOPY);
+	SetDIBitsToDevice(screenDC, 0, 0, gra.get_h()+1, gra.get_h()+1, 0, 0, 0, gra.get_h()+1, 
+		gra.getptr(), &info, DIB_RGB_COLORS);
 	return 0;
 }
 int canvas::reset()
@@ -43,17 +39,12 @@ int canvas::reset()
 	GetClientRect(hwnd, &clientRect);
 	width = clientRect.right;
 	height = clientRect.bottom;
-	screenDC = GetDC(hwnd);  // 获取屏幕DC
-	memDC = CreateCompatibleDC(screenDC);
-	bitmap = CreateCompatibleBitmap(screenDC, width, height);
-	SelectObject(memDC, bitmap);
 	info.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
 	info.bmiHeader.biWidth = width;
 	info.bmiHeader.biHeight = height;
 	info.bmiHeader.biPlanes = 1;
 	info.bmiHeader.biBitCount = 32;  // 使用32位像素格式
 	info.bmiHeader.biCompression = BI_RGB;
-	GetDIBits(memDC, bitmap, width, height, NULL, &info, DIB_RGB_COLORS);
 	return gra.reset(width,height);
 }
 int canvas::tg_DrawLine(tg_vec2d begin, tg_vec2d end)

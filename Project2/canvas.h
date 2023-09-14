@@ -4,20 +4,19 @@ class canvas
 {
 private:
 	HDC screenDC;
-	HDC memDC;
-	HBITMAP bitmap;
 	BITMAPINFO info;
 	HWND hwnd;
 	Graphics gra;
 public:
+	Graphics get_gra() {
+		return gra;
+	};
 	bool set_pixel(int vec, int rgb);
 	int get_h() { return gra.get_h(); }
 	int get_w() { return gra.get_w(); }
 	int* getptr() { return gra.getptr(); }
 	void drawpic(Image img, int x, int y, int delta_x, int delta_y);
 	~canvas() {
-		DeleteDC(memDC);
-		DeleteObject(bitmap);
 		ReleaseDC(NULL, screenDC);
 	}
 	int reset();

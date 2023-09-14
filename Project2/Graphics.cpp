@@ -1,5 +1,16 @@
 #include "Graphics.h"
 #include <iostream>
+#include <cmath>
+
+int tg_color(float k1,float k2, Image img, tg_vec2d vec1, tg_vec2d vec2, tg_vec2d vec3)
+{
+	tg_vec2d line1(vec1.x + k1 * (vec2.x - vec1.x), vec1.y + k1 * (vec2.y - vec1.y));
+	tg_vec2d line2(vec1.x + k1 * (vec3.x - vec1.x), vec1.y + k1 * (vec3.y - vec1.y));
+	tg_vec2d p(line1.x+(line2.x-line1.x)*k2, line1.y + (line2.y - line1.y) * k2);
+	std::cout << int(p.x) * img.width + int(p.y) << std::endl;
+	return img.get_color(int(p.x)*img.width+int(p.y));
+}
+
 bool Graphics::set_pixel(int vec, int rgb)
 {
 	if (vec<0 || vec>len)return false;
@@ -140,7 +151,7 @@ int Graphics::tg_DrawLine(tg_vec2d begin, tg_vec2d end)
 	tg_vec2d* d = line(begin, end, l_s);
 	for (auto it = 0; it != l_s; it++)
 	{
-		ptr[int(d[it].x * w + d[it].y)] = RGB(255, 0, 0);
+		set_pixel(int(d[it].x * w + d[it].y), RGB(255, 0, 0));
 	}
 	delete d;
 	return 0;
@@ -152,8 +163,10 @@ bool Graphics::get_color(tg_vec3d& b, tg_vec3d& e, tg_vec2d& t, float z, int& rg
 	if (k.z < 0 || (z_ptr[rgb] != -1 && z_ptr[rgb] < k.z))return 0;
 	k.x += (e.x - b.x) * z;
 	k.y += (e.y - b.y) * z;
-	z_ptr[rgb] = k.z;
-	ptr[rgb] = RGB(255, 0, 255 - k.z);
+	if (set_pixel(rgb, RGB(255,0,255-k.z)))
+	{
+		z_ptr[rgb]=k.z;
+	}
 	return 1;
 }
 
@@ -166,8 +179,25 @@ bool Graphics::get_color_2(tg_vec2d& b, tg_vec2d& e, int z, int offset)
 	if (k.z < 0 || (z_ptr[offset] != -1 && z_ptr[offset] < k.z))return 0;
 	k.x += (e.x - b.x) * d;
 	k.y += (e.y - b.y) * d;
-	z_ptr[offset] = k.z;
-	ptr[offset] = RGB(255, 0, 255 - k.z);
+	if (set_pixel(offset, RGB(255, 0, 255 - k.z)))
+	{
+		z_ptr[offset] = k.z;
+	}
+	return 1;
+}
+bool Graphics::get_color_3(tg_vec2d& b, tg_vec2d& e,float k1, int z, int offset, Image img, tg_vec2d vc1, tg_vec2d vc2, tg_vec2d vc3)
+{
+	tg_vec3d k(b);
+	if (e.x == b.x)return 0;
+	float d = (z - b.x) / (1.0 * (e.x - b.x));
+	k.z += (e.z - b.z) * d;
+	if (k.z < 0 || (z_ptr[offset] != -1 && z_ptr[offset] < k.z))return 0;
+	k.x += (e.x - b.x) * d;
+	k.y += (e.y - b.y) * d;
+	if (set_pixel(offset, tg_color(k1,d,img,vc1,vc2,vc3)))
+	{
+		z_ptr[offset] = k.z;
+	}
 	return 1;
 }
 int Graphics::tg_DrawLine3d(tg_vec3d begin, tg_vec3d end)
@@ -188,7 +218,7 @@ int Graphics::tg_fill(tg_vec2d* l1, tg_vec2d* l2, int l1_s, int l2_s)
 {
 	if (l1[0].y > l2[0].y) { swap(l2, l1); swap(l1_s, l2_s); }
 	int i = 0, j = 0;
-	int t1 = 0, t2 = 0, offest, z;
+	int t1 = 0, t2 = 0, offset, z;
 	while (l1[i].x < l2[j].x)
 	{
 		i++; if (i == l1_s)return 0;
@@ -199,10 +229,10 @@ int Graphics::tg_fill(tg_vec2d* l1, tg_vec2d* l2, int l1_s, int l2_s)
 		{
 			j++; if (j == l2_s)return 0;
 		}
-		offest = l1[i].x * w;
+		offset = l1[i].x * w;
 		for (z = l1[i].y; z < l2[j].y; z++) {
 			if (z == l1[i].y || z + 1 >= l2[j].y)
-				ptr[offest + z] = RGB(0, 0, 125);
+				set_pixel(offset + z, RGB(0,0,125 ));
 		}
 		do { i++; if (i == l1_s)return 0; } while (l1[i].x == l1[i - 1].x);
 	}
@@ -264,6 +294,42 @@ int Graphics::tg_DrawTriangle_3d(tg_vec3d v1, tg_vec3d v2, tg_vec3d v3)
 		ptr[int(l3 [it] .x * w + l3[it].y)] = RGB(0, 0, 0);
 	}
 */
+	delete l1;
+	delete l2;
+	delete l3;
+	return 0;
+}
+int Graphics::tg_DrawTriangle_3d_with_image(tg_vec3d v1, tg_vec3d v2, tg_vec3d v3,Image img,tg_vec2d vc1,tg_vec2d vc2,tg_vec2d vc3)
+{
+	tg_vec2d vec1(v1), vec2(v2), vec3(v3);
+	if (vec1.y < vec2.y) { swap(vec1, vec2); swap(vc1, vc2); }
+	if (vec2.y < vec3.y) { 
+		swap(vec2, vec3); swap(vc2, vc3); 
+		if (vec1.y < vec2.y) { swap(vec1, vec2); swap(vc1, vc2); }
+	}
+	int ls1 = 0, ls2 = 0, ls3 = 0;
+	tg_vec2d* l1 = line_2(vec1, vec2, ls1);
+	tg_vec2d* l2 = line_2(vec2, vec3, ls2);
+	tg_vec2d* l3 = line_2(vec1, vec3, ls3);
+	int len1 = 0, len2 = 0, d;
+	d = vec3.x + (vec1.x - vec3.x) * (vec2.y - vec3.y) / (vec1.y - vec3.y);
+	if (d < vec2.x)d = 1; else d = -1;
+	bool t = 0;
+	while (len1 < ls3)
+	{
+		int offset = l3[len1].y * w;
+		for (int x = l3[len1].x; x != l1[len2].x; x += d)
+		{
+			get_color_3(l3[len1], l1[len2], len1 / float(ls3), x, offset + x, img, vc1, vc2, vc3);
+		}
+		do { len1++; } while (len1 < ls3 && l3[len1].y == l3[len1 - 1].y);
+		do { len2++; } while (len2 < ls1 && l1[len2].y != l3[len1].y);
+		if (len2 == ls1 && t == 0) {
+			len2 = 0;
+			swap(l1, l2); swap(ls1, ls2);
+			while (len2 < ls1 && l1[len2].y != l3[len1].y)len2++;
+		}
+	}
 	delete l1;
 	delete l2;
 	delete l3;
