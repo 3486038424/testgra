@@ -39,9 +39,6 @@
     <ClCompile Include="lodepng.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tgra_win.h">
@@ -66,9 +63,6 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="lodepng.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
