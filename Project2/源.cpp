@@ -1,4 +1,5 @@
 #pragma once
+//#pragma GCC optimize(2)
 #include"tgra_win.h"
 #include <time.h>
 #include<iostream>
@@ -9,26 +10,26 @@ int k = 0;
 	{
 		/*
 		int t = clock();
-		
-		l->GetCanvas()->tg_DrawTriangle_3d(tg_vec3d(100, 100, 120), tg_vec3d(300, 300, 120), tg_vec3d(100, 300, 120));
-		l->GetCanvas()->tg_DrawTriangle_3d(tg_vec3d(100, 100, 120), tg_vec3d(300, 300, 120), tg_vec3d(300, 100, 120));
+
+		l->GetCanvas()->tg_DrawTriangle_3d(tg_vec3d(100, 100, 100), tg_vec3d(600, 600, 100), tg_vec3d(100, 600, 100));
+		l->GetCanvas()->tg_DrawTriangle_3d(tg_vec3d(100, 100, 100), tg_vec3d(600, 600, 100), tg_vec3d(600, 100, 100));
 
 
-		l->GetCanvas()->tg_DrawTriangle_3d(tg_vec3d(100, 100, 200), tg_vec3d(300, 300, 200), tg_vec3d(100, 300, 200));
-		l->GetCanvas()->tg_DrawTriangle_3d(tg_vec3d(100, 100, 200), tg_vec3d(300, 300, 200), tg_vec3d(300, 100, 200));
+		l->GetCanvas()->tg_DrawTriangle_3d(tg_vec3d(100, 100, 200), tg_vec3d(600, 600, 200), tg_vec3d(100, 600, 200));
+		l->GetCanvas()->tg_DrawTriangle_3d(tg_vec3d(100, 100, 200), tg_vec3d(600, 600, 200), tg_vec3d(600, 100, 200));
 
 
-		l->GetCanvas()->tg_DrawTriangle_3d(tg_vec3d(100, 100, 120), tg_vec3d(100, 300, 200), tg_vec3d(100, 300, 120));
-		l->GetCanvas()->tg_DrawTriangle_3d(tg_vec3d(100, 100, 120), tg_vec3d(100, 300, 200), tg_vec3d(100, 100, 200));
+		l->GetCanvas()->tg_DrawTriangle_3d(tg_vec3d(100, 100, 100), tg_vec3d(100, 600, 200), tg_vec3d(100, 600, 100));
+		l->GetCanvas()->tg_DrawTriangle_3d(tg_vec3d(100, 100, 100), tg_vec3d(100, 600, 200), tg_vec3d(100, 100, 200));
 
-		l->GetCanvas()->tg_DrawTriangle_3d(tg_vec3d(100, 100, 120), tg_vec3d(300, 100, 200), tg_vec3d(300, 100, 120));
-		l->GetCanvas()->tg_DrawTriangle_3d(tg_vec3d(100, 100, 120), tg_vec3d(300, 100, 200), tg_vec3d(100, 100, 200));
+		l->GetCanvas()->tg_DrawTriangle_3d(tg_vec3d(100, 100, 100), tg_vec3d(600, 100, 200), tg_vec3d(600, 100, 100));
+		l->GetCanvas()->tg_DrawTriangle_3d(tg_vec3d(100, 100, 100), tg_vec3d(600, 100, 200), tg_vec3d(100, 100, 200));
 
-		l->GetCanvas()->tg_DrawTriangle_3d(tg_vec3d(300, 300, 120), tg_vec3d(100, 300, 200), tg_vec3d(100, 300, 120));
-		l->GetCanvas()->tg_DrawTriangle_3d(tg_vec3d(300, 300, 120), tg_vec3d(100, 300, 200), tg_vec3d(300, 300, 200));
+		l->GetCanvas()->tg_DrawTriangle_3d(tg_vec3d(600, 600, 100), tg_vec3d(100, 600, 200), tg_vec3d(100, 600, 100));
+		l->GetCanvas()->tg_DrawTriangle_3d(tg_vec3d(600, 600, 100), tg_vec3d(100, 600, 200), tg_vec3d(600, 600, 200));
 
-		l->GetCanvas()->tg_DrawTriangle_3d(tg_vec3d(300, 300, 120), tg_vec3d(300, 100, 200), tg_vec3d(300, 100, 120));
-		l->GetCanvas()->tg_DrawTriangle_3d(tg_vec3d(300, 300, 120), tg_vec3d(300, 100, 200), tg_vec3d(300, 300, 200));
+		l->GetCanvas()->tg_DrawTriangle_3d(tg_vec3d(600, 600, 100), tg_vec3d(600, 100, 200), tg_vec3d(600, 100, 100));
+		l->GetCanvas()->tg_DrawTriangle_3d(tg_vec3d(600, 600, 100), tg_vec3d(600, 100, 200), tg_vec3d(600, 600, 200));
 		k++;
 		l->GetCanvas()->drawpic(i,-100,-100,500,700);
 
@@ -36,7 +37,8 @@ int k = 0;
 		l->GetCanvas()->get_gra().tg_DrawTriangle_3d_with_image(tg_vec3d(400, 600, 100), tg_vec3d(100, 100, 200), tg_vec3d(400, 100, 100), i, tg_vec2d(i.width, 0), tg_vec2d(i.width, i.height), tg_vec2d(0, i.height));
 
 		*/		
-		l->GetCanvas()->get_gra().tg_DrawTriangle_3d_with_image(tg_vec3d(100, 600, 100), tg_vec3d(500, 600, 100), tg_vec3d(100, 100, 100), i, tg_vec2d(0, 0), tg_vec2d(i.width, 0), tg_vec2d(0, i.height));
+
+		l->GetCanvas()->get_gra().tg_DrawTriangle_3d_with_image(tg_vec3d(100, 560, 100), tg_vec3d(500, 600, 100), tg_vec3d(100, 100, 100), i, tg_vec2d(0, 0), tg_vec2d(i.width, 0), tg_vec2d(0, i.height));
 		l->GetCanvas()->get_gra().tg_DrawTriangle_3d_with_image(tg_vec3d(500, 600, 100), tg_vec3d(500, 100, 100), tg_vec3d(100, 100, 100), i, tg_vec2d(i.width, 0), tg_vec2d(i.width, i.height), tg_vec2d(0, i.height));
 
 	}

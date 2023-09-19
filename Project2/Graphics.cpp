@@ -1,7 +1,6 @@
 #include "Graphics.h"
 #include <iostream>
 #include <cmath>
-#pragma GCC optimize(2)
 bool Graphics::set_pixel(int vec, int rgb)
 {
 	if (vec<0 || vec>len)return false;
@@ -284,7 +283,6 @@ public:
 			swap(vec2, vec3); swap(vc2, vc3); swap(v2, v3);
 			if (vec1.y < vec2.y) { swap(vec1, vec2); swap(vc1, vc2); swap(v1, v2); }
 		}
-
 		
 		tx1 = vc2.x - vc1.x;
 		tx2 = vc3.x - vc1.x;
@@ -294,7 +292,7 @@ public:
 		double l_23 = v2.far_3(v3), l_13 = v1.far_3(v3);
 		double p2 = (l_12 + l_23 + l_13) / 2;
 		double s = sqrt(p2 * (p2 - l_12) * (p2 - l_23) * (p2 - l_13));
-		l2 = s * 2 / l_13;
+		l2 = s * 2 / l_12;
 
 		l13 = new tg_vec3d(v3.x - v1.x, v3.y - v1.y, v3.z - v1.z);
 		l23 = new tg_vec3d(v3.x - v2.x, v3.y - v2.y, v3.z - v2.z);
@@ -339,15 +337,12 @@ public:
 		if (k.z <= 0 || (gra->z_ptr[offset] != -1 && gra->z_ptr[offset] < k.z))return 0;
 		k.x += p->x * d;
 		k.y += p->y * d;
-		/*
+		
 		double  l_23 = v2.far_3(k), l_13 = v1.far_3(k);
 		double p = (l_12 + l_23 + l_13) / 2;
 		double s = sqrt(p * (p - l_12) * (p - l_23) * (p - l_13));
 		float l1 = s * 2 / l_12;
 		float k1 = l1 / l2;
-		*/
-
-		float k1 = short_distance(v1,v2,k) / short_distance(v1,v2,v3);
 		tg_vec3d line1(v1.x + k1 * l13->x, v1.y + k1 * l13->y, v1.z + k1 * l13->z);
 		tg_vec3d line2(v2.x + k1 * l23->x, v2.y + k1 * l23->y, v2.z + k1 * l23->z);
 		float k2 = line1.far_3(k) / line1.far_3(line2);
