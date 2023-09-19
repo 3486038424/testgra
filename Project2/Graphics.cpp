@@ -1,8 +1,7 @@
 #include "Graphics.h"
 #include <iostream>
 #include <cmath>
-
-
+#pragma GCC optimize(2)
 bool Graphics::set_pixel(int vec, int rgb)
 {
 	if (vec<0 || vec>len)return false;
@@ -267,16 +266,17 @@ int Graphics::tg_DrawTriangle_3d(tg_vec3d v1, tg_vec3d v2, tg_vec3d v3)
 }
 class draw_pic_in_3d
 {
-
-	tg_vec3d *l13, *l23;
 	int tx1, tx2;
 	int ty1, ty2;
-	float l2; float d1;
+	
+	tg_vec3d *l13, *l23;
+	float l2; 
+	float d1;
 	float l_12;
 	tg_vec3d *p;
-	int t1,t2;
+	
 public:
-	int draw_pic(Graphics *gra,tg_vec3d v1, tg_vec3d v2, tg_vec3d v3, Image img, tg_vec2d vc1, tg_vec2d vc2, tg_vec2d vc3)
+	int draw_pic(Graphics *gra,tg_vec3d v1, tg_vec3d v2, tg_vec3d v3, Image& img, tg_vec2d& vc1, tg_vec2d& vc2, tg_vec2d& vc3)
 	{
 		tg_vec2d vec1(v1), vec2(v2), vec3(v3);
 		if (vec1.y < vec2.y) { swap(vec1, vec2); swap(vc1, vc2); swap(v1, v2); }
@@ -285,19 +285,19 @@ public:
 			if (vec1.y < vec2.y) { swap(vec1, vec2); swap(vc1, vc2); swap(v1, v2); }
 		}
 
+		
+		tx1 = vc2.x - vc1.x;
+		tx2 = vc3.x - vc1.x;
+		ty1 = vc2.y - vc1.y;
+		ty2 = vc3.y - vc1.y;
 		l_12 = v1.far_3(v2);
 		double l_23 = v2.far_3(v3), l_13 = v1.far_3(v3);
 		double p2 = (l_12 + l_23 + l_13) / 2;
 		double s = sqrt(p2 * (p2 - l_12) * (p2 - l_23) * (p2 - l_13));
-		l2 = s * 2 / l_13;		t1 = 0; t2 = 0;
-		tx1 = vc1.x - vc2.x;
-		tx2 = vc3.x - vc1.x;
-		ty1 = vc1.y - vc2.y;
-		ty2 = vc3.y - vc1.y;
-		l2 = short_distance(v1, v2, v3);
+		l2 = s * 2 / l_13;
+
 		l13 = new tg_vec3d(v3.x - v1.x, v3.y - v1.y, v3.z - v1.z);
 		l23 = new tg_vec3d(v3.x - v2.x, v3.y - v2.y, v3.z - v2.z);
-
 
 		int ls1 = 0, ls2 = 0, ls3 = 0;
 		tg_vec2d* l1 = line_2(vec1, vec2, ls1);
@@ -310,15 +310,13 @@ public:
 		while (len1 < ls3)
 		{
 			int offset = l3[len1].y * gra->w;
-
 			d1 = l1[len2].x - l3[len1].x;
 			tg_vec3d k(l3[len1]);
 			p = new tg_vec3d(l1[len2]);
-			p->x -= k.z; p->y -= k.y; p->y -= k.y;
-
+			p->x -= k.x; p->y -= k.y; p->z -= k.z;
 			for (int x = l3[len1].x; x != l1[len2].x; x += d)
 			{
-				get_color_3(gra,l3[len1], v1, v2, v3, x, offset + x, img, vc1);
+				get_color_3(gra,l3[len1],l1[len2], v1, v2, v3, x, offset + x, img, vc1);
 			}
 			do { len1++; } while (len1 < ls3 && l3[len1].y == l3[len1 - 1].y);
 			do { len2++; } while (len2 < ls1 && l1[len2].y != l3[len1].y);
@@ -328,46 +326,43 @@ public:
 				while (len2 < ls1 && l1[len2].y != l3[len1].y)len2++;
 			}
 		}
-		std::cout << t1 << ' ' << t2 << '\n';
 		delete l1;
 		delete l2;
 		delete l3;
 		return 0;
 	}
-	bool get_color_3(Graphics *gra,tg_vec2d& b,  tg_vec3d v1, tg_vec3d v2, tg_vec3d v3, int z, int offset, Image& img, tg_vec2d& vc1)
+	bool get_color_3(Graphics *gra, tg_vec2d& b, tg_vec2d& e, tg_vec3d v1, tg_vec3d v2, tg_vec3d v3, int x, int offset, Image& img, tg_vec2d& vc1)
 	{
 		tg_vec3d k(b);
-		float d = (z - b.x) / d1;
+		float d = (x - b.x) / d1;
 		k.z += p->z * d;
 		if (k.z <= 0 || (gra->z_ptr[offset] != -1 && gra->z_ptr[offset] < k.z))return 0;
 		k.x += p->x * d;
 		k.y += p->y * d;
-		int t3 = clock();
+		/*
 		double  l_23 = v2.far_3(k), l_13 = v1.far_3(k);
-		t1 += clock() - t3;
 		double p = (l_12 + l_23 + l_13) / 2;
-		t3 = clock();
 		double s = sqrt(p * (p - l_12) * (p - l_23) * (p - l_13));
-		t2 += clock() - t3;
-		float l1 = s * 2 / l_12;;
+		float l1 = s * 2 / l_12;
 		float k1 = l1 / l2;
+		*/
+
+		float k1 = short_distance(v1,v2,k) / short_distance(v1,v2,v3);
 		tg_vec3d line1(v1.x + k1 * l13->x, v1.y + k1 * l13->y, v1.z + k1 * l13->z);
-		tg_vec3d line2(v2.x + k1 * l23->z, v2.y + k1 * l23->y, v2.z + k1 * l23->z);
+		tg_vec3d line2(v2.x + k1 * l23->x, v2.y + k1 * l23->y, v2.z + k1 * l23->z);
 		float k2 = line1.far_3(k) / line1.far_3(line2);
-		if (gra->set_pixel(offset, tg_color(k1, k2, img, vc1)))
-		{
-			gra->z_ptr[offset] = k.z;
-		}
+		if (gra->set_pixel(offset, tg_color(k1, k2, img, vc1)))gra->z_ptr[offset] = k.z;
 		return 1;
 	}
 	int tg_color(float k1, float k2, Image& img, tg_vec2d& vec1)
 	{
 		tg_vec2d p(vec1.x + k1 * tx2 + k2 * (1 - k1) * tx1, vec1.y + k1 * ty2 + k2 * (1 - k1) * ty1);
-		return RGB(p.x/((float)img.width)*255,0,0);
+		//return RGB(p.x/(float)img.width*255,p.y/(float)img.height*255,0);
+		//return RGB(k2*255,0,0);
 		return img.get_color(int(p.y) * img.width + int(p.x));
 	}
 };
-int Graphics::tg_DrawTriangle_3d_with_image(tg_vec3d v1, tg_vec3d v2, tg_vec3d v3,Image img,tg_vec2d vc1,tg_vec2d vc2,tg_vec2d vc3)
+int Graphics::tg_DrawTriangle_3d_with_image(tg_vec3d v1, tg_vec3d v2, tg_vec3d v3,Image &img,tg_vec2d vc1,tg_vec2d vc2,tg_vec2d vc3)
 {
 	draw_pic_in_3d d;
 	d.draw_pic(this, v1, v2, v3, img, vc1, vc2, vc3);

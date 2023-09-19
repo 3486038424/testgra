@@ -32,7 +32,7 @@ public:
 	int tg_DrawTriangle(tg_vec2d v1, tg_vec2d v2, tg_vec2d v3);
 	int tg_DrawTriangle_3d(tg_vec3d v1, tg_vec3d v2, tg_vec3d v3);
 	bool get_color(tg_vec3d& b, tg_vec3d& e, tg_vec2d& t, float z, int& rgb);
-	int tg_DrawTriangle_3d_with_image(tg_vec3d v1, tg_vec3d v2, tg_vec3d v3, Image img, tg_vec2d vc1, tg_vec2d vc2, tg_vec2d vc3);
+	int tg_DrawTriangle_3d_with_image(tg_vec3d v1, tg_vec3d v2, tg_vec3d v3, Image&img, tg_vec2d vc1, tg_vec2d vc2, tg_vec2d vc3);
 	int clear()
 	{
 		k = 0;
