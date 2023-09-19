@@ -14,6 +14,7 @@ public:
 	int get_w() { return screen.get_w(); }
 	int get_h() { return screen.get_h(); }
 	void insert(decltype(m) t) { work.add(t); }
+	int one_loop();
 private:
 	works work;
 	WNDCLASS wndcls;

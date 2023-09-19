@@ -54,14 +54,14 @@ int canvas::tg_DrawLine(tg_vec2d begin, tg_vec2d end)
 
 int canvas::tg_DrawLine3d(tg_vec3d begin, tg_vec3d end)
 {
-	return tg_DrawLine3d(begin, end);
+	return gra.tg_DrawLine3d(begin, end);
 };
 int canvas::tg_DrawTriangle(tg_vec2d v1, tg_vec2d v2, tg_vec2d v3)
 {
-	return tg_DrawTriangle(v1, v2, v3);
+	return gra.tg_DrawTriangle(v1, v2, v3);
 }
 int canvas::tg_DrawTriangle_3d(tg_vec3d v1, tg_vec3d v2, tg_vec3d v3)
 {
-	return tg_DrawTriangle_3d(v1, v2, v3);
+	return gra.tg_DrawTriangle_3d(v1, v2, v3);
 }
 

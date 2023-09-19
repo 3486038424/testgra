@@ -8,7 +8,7 @@ template<typename T>
 void swap(T& a, T& b);
 class Graphics
 {
-private:
+public:
 	int w, h;
 	int frameCount;
 	int* ptr;
@@ -16,9 +16,7 @@ private:
 	int k;
 	int len;
 	tg_vec2d* line(tg_vec2d begin, tg_vec2d end, int& l_s);
-	tg_vec2d* line_2(tg_vec2d begin, tg_vec2d end, int& l_s);
 	bool get_color_2(tg_vec2d& b, tg_vec2d& e, int z, int offset);
-public:
 	bool set_pixel(int vec, int rgb);
 	int get_h() { return h - 1; }
 	int get_w() { return w - 1; }
@@ -34,7 +32,6 @@ public:
 	int tg_DrawTriangle(tg_vec2d v1, tg_vec2d v2, tg_vec2d v3);
 	int tg_DrawTriangle_3d(tg_vec3d v1, tg_vec3d v2, tg_vec3d v3);
 	bool get_color(tg_vec3d& b, tg_vec3d& e, tg_vec2d& t, float z, int& rgb);
-	bool get_color_3(tg_vec2d& b, tg_vec2d& e, float k1, int z, int offset, Image img, tg_vec2d vc1, tg_vec2d vc2, tg_vec2d vc3);
 	int tg_DrawTriangle_3d_with_image(tg_vec3d v1, tg_vec3d v2, tg_vec3d v3, Image img, tg_vec2d vc1, tg_vec2d vc2, tg_vec2d vc3);
 	int clear()
 	{
