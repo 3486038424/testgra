@@ -4,7 +4,7 @@
 #include <time.h>
 #include<iostream>
 tgra_win* l;
-Image i("E://t.png");
+Image i("C://10.png");
 int k = 0;
 	void u()
 	{
