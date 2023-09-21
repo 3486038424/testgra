@@ -1,14 +1,39 @@
 #pragma once
 #include<Windows.h>
-#include<vector>
 #include"tg_vec2d.h"
 #include "Image.h"
-
+class Buffer
+{
+	tg_vec2d* buffer;
+	int len;
+	int index;
+	void longer()
+	{
+		tg_vec2d* b = new tg_vec2d[len + 10];
+		for (int i = 0; i < index; i++)b[i] = buffer[i];
+		buffer = b;
+		len += 20;
+	}
+public:
+	Buffer(int length = 10) :len(length),index(0) { buffer = new tg_vec2d[length]; }
+	int insert(tg_vec2d point)
+	{
+		if (index >= len) {
+			longer();
+		}
+		buffer[index] = point;
+		index++;
+		return 0;
+	}
+	tg_vec2d* get_buffer() { return buffer; }
+	int get_size() { return index; }
+	tg_vec2d get(int in) { if (in<0||in >= index)return NULL; return buffer[in]; }
+	int set(int in, tg_vec2d point) { if (in < 0 || in >= index)return 1; buffer[in] = point; return 0; }
+};
 template<typename T>
 void swap(T& a, T& b);
 class Graphics
 {
-public:
 	int w, h;
 	int frameCount;
 	int* ptr;
@@ -16,23 +41,21 @@ public:
 	int k;
 	int len;
 	tg_vec2d* line(tg_vec2d begin, tg_vec2d end, int& l_s);
-	bool get_color_2(tg_vec2d& b, tg_vec2d& e, int z, int offset);
+	bool set_pixel(int x, int y, int rgb);
 	bool set_pixel(int vec, int rgb);
+public:
 	int get_h() { return h - 1; }
 	int get_w() { return w - 1; }
 	int* getptr() { return ptr; }
 	void drawpic(Image img, int x, int y, int delta_x, int delta_y);
+	int tg_DrawCircle(int x, int y, int r);
 	int reset(int width,int height);
 	int init(int width,int height);
 	int tg_DrawLine(tg_vec2d begin, tg_vec2d end);
-	int tg_DrawLine3d(tg_vec3d begin, tg_vec3d end);
-	tg_vec3d* line_3(tg_vec3d begin, tg_vec3d end, int& l_s);
-	int tg_fill(tg_vec2d* l1, tg_vec2d* l2, int l1_s, int l2_s);
-	int tg_DrawRect(int b_x, int b_y, int e_x, int e_y);
+	int tg_DrawRect(int b_x, int b_y, int width, int height);
 	int tg_DrawTriangle(tg_vec2d v1, tg_vec2d v2, tg_vec2d v3);
-	int tg_DrawTriangle_3d(tg_vec3d v1, tg_vec3d v2, tg_vec3d v3);
-	bool get_color(tg_vec3d& b, tg_vec3d& e, tg_vec2d& t, float z, int& rgb);
-	int tg_DrawTriangle_3d_with_image(tg_vec3d v1, tg_vec3d v2, tg_vec3d v3, Image&img, tg_vec2d vc1, tg_vec2d vc2, tg_vec2d vc3);
+	int tg_DrawPolygon(Buffer buffer) { return tg_DrawPolygon(buffer.get_buffer(), buffer.get_size()); };
+	int tg_DrawPolygon(tg_vec2d* buffer, int len);
 	int clear()
 	{
 		k = 0;

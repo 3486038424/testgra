@@ -146,7 +146,6 @@
     <ClCompile Include="lodepng.cpp" />
     <ClCompile Include="tgra_win.cpp" />
     <ClCompile Include="tg_vec2d.cpp" />
-    <ClCompile Include="tg_vec3d.cpp" />
     <ClCompile Include="works.cpp" />
     <ClCompile Include="源.cpp" />
   </ItemGroup>
@@ -158,7 +157,6 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="tgra_win.h" />
     <ClInclude Include="tg_vec2d.h" />
-    <ClInclude Include="tg_vec3d.h" />
     <ClInclude Include="works.h" />
   </ItemGroup>
   <ItemGroup>

@@ -1,51 +1,39 @@
 #pragma once
-//#pragma GCC optimize(2)
 #include"tgra_win.h"
 #include <time.h>
 #include<iostream>
 tgra_win* l;
 Image i("C://10.png");
 int k = 0;
-	void u()
+Buffer b;
+
+#include<random>
+tg_vec2d* vecs;
+
+void u()
+{
+	Graphics gra=l->GetCanvas()->get_gra();
+	for (int i = 0; i < 10; i++)
 	{
-		/*
-		int t = clock();
-
-		l->GetCanvas()->tg_DrawTriangle_3d(tg_vec3d(100, 100, 100), tg_vec3d(600, 600, 100), tg_vec3d(100, 600, 100));
-		l->GetCanvas()->tg_DrawTriangle_3d(tg_vec3d(100, 100, 100), tg_vec3d(600, 600, 100), tg_vec3d(600, 100, 100));
-
-
-		l->GetCanvas()->tg_DrawTriangle_3d(tg_vec3d(100, 100, 200), tg_vec3d(600, 600, 200), tg_vec3d(100, 600, 200));
-		l->GetCanvas()->tg_DrawTriangle_3d(tg_vec3d(100, 100, 200), tg_vec3d(600, 600, 200), tg_vec3d(600, 100, 200));
-
-
-		l->GetCanvas()->tg_DrawTriangle_3d(tg_vec3d(100, 100, 100), tg_vec3d(100, 600, 200), tg_vec3d(100, 600, 100));
-		l->GetCanvas()->tg_DrawTriangle_3d(tg_vec3d(100, 100, 100), tg_vec3d(100, 600, 200), tg_vec3d(100, 100, 200));
-
-		l->GetCanvas()->tg_DrawTriangle_3d(tg_vec3d(100, 100, 100), tg_vec3d(600, 100, 200), tg_vec3d(600, 100, 100));
-		l->GetCanvas()->tg_DrawTriangle_3d(tg_vec3d(100, 100, 100), tg_vec3d(600, 100, 200), tg_vec3d(100, 100, 200));
-
-		l->GetCanvas()->tg_DrawTriangle_3d(tg_vec3d(600, 600, 100), tg_vec3d(100, 600, 200), tg_vec3d(100, 600, 100));
-		l->GetCanvas()->tg_DrawTriangle_3d(tg_vec3d(600, 600, 100), tg_vec3d(100, 600, 200), tg_vec3d(600, 600, 200));
-
-		l->GetCanvas()->tg_DrawTriangle_3d(tg_vec3d(600, 600, 100), tg_vec3d(600, 100, 200), tg_vec3d(600, 100, 100));
-		l->GetCanvas()->tg_DrawTriangle_3d(tg_vec3d(600, 600, 100), tg_vec3d(600, 100, 200), tg_vec3d(600, 600, 200));
-		k++;
-		l->GetCanvas()->drawpic(i,-100,-100,500,700);
-
-		l->GetCanvas()->get_gra().tg_DrawTriangle_3d_with_image(tg_vec3d(100, 600, 200), tg_vec3d(400, 600, 100), tg_vec3d(100, 100, 200), i, tg_vec2d(0, 0), tg_vec2d(i.width, 0), tg_vec2d(0, i.height));
-		l->GetCanvas()->get_gra().tg_DrawTriangle_3d_with_image(tg_vec3d(400, 600, 100), tg_vec3d(100, 100, 200), tg_vec3d(400, 100, 100), i, tg_vec2d(i.width, 0), tg_vec2d(i.width, i.height), tg_vec2d(0, i.height));
-
-		*/		
-
-		l->GetCanvas()->get_gra().tg_DrawTriangle_3d_with_image(tg_vec3d(100, 560, 100), tg_vec3d(500, 600, 100), tg_vec3d(100, 100, 100), i, tg_vec2d(0, 0), tg_vec2d(i.width, 0), tg_vec2d(0, i.height));
-		l->GetCanvas()->get_gra().tg_DrawTriangle_3d_with_image(tg_vec3d(500, 600, 100), tg_vec3d(500, 100, 100), tg_vec3d(100, 100, 100), i, tg_vec2d(i.width, 0), tg_vec2d(i.width, i.height), tg_vec2d(0, i.height));
-
+		vecs[i].x += rand() / (float)RAND_MAX * 10 - 5;
+		vecs[i].y += rand() / (float)RAND_MAX * 10;
+		if (vecs[i].x < 0)vecs[i].x += 400;
+		if (vecs[i].x > 400)vecs[i].x -= 400;
+		if (vecs[i].y > 400)vecs[i].y -= 400;
 	}
+	for (int i = 0; i < 10; i++)
+	{
+		gra.tg_DrawCircle(vecs[i].x, vecs[i].y, 2);
+	}
+}
 
 int main() {
-	
-	l = new tgra_win(L"第0列", 600, 700);
+	vecs = new tg_vec2d[10];
+	for (int i = 0; i < 10; i++)
+	{
+		vecs[i] = tg_vec2d(rand()/ (float)RAND_MAX*400,0);
+	}
+	l = new tgra_win(L"第0列", 400, 400);
 	l->insert(u);
 	l->one_loop();
 	l->loop();

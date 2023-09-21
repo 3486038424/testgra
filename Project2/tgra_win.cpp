@@ -43,12 +43,14 @@ tgra_win::tgra_win(LPCWSTR name, int width, int height,LPCWSTR class_name, declt
 int tgra_win::loop()
 {
 	MSG msg;
-	while (GetMessage(&msg, NULL, 0, 0))//如果消息不是WM_QUIT,返回非零值；如果消息是WM_QUIT，返回零
+	while (1)//如果消息不是WM_QUIT,返回非零值；如果消息是WM_QUIT，返回零
 	{
 		int t = clock();
-		TranslateMessage(&msg);//翻译消息，如把WM_KEYDOWN和WM_KEYUP翻译成一个WM_CHAR消息
-		DispatchMessage(&msg);//派发消息	
-
+		while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
+			if(msg.message==WM_QUIT)
+			TranslateMessage(&msg);//翻译消息，如把WM_KEYDOWN和WM_KEYUP翻译成一个WM_CHAR消息
+			DispatchMessage(&msg);//派发消息	
+		}
 		if (msg.message == 161)
 		{
 			switch (msg.wParam)
