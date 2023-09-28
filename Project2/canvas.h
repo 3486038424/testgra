@@ -8,8 +8,8 @@ private:
 	HWND hwnd;
 	Graphics gra;
 public:
-	Graphics get_gra() {
-		return gra;
+	Graphics* get_gra() {
+		return &gra;
 	};
 	bool set_pixel(int vec, int rgb);
 	int get_h() { return gra.get_h(); }

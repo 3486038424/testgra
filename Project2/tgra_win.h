@@ -1,23 +1,29 @@
 #pragma once
 #include<iostream>
 #include<time.h>
-#include"canvas.h"
+#include<vector>
+#include "tg_Frame.h"
 #include "works.h"
-LRESULT CALLBACK unload(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 class tgra_win
 {
 public:
-	tgra_win(LPCWSTR name, int width, int height, LPCWSTR class_name=L"test", decltype(unload) WinSunProc=unload);
+	int new_tg_Frame(LPCWSTR name, int width, int height, LPCWSTR class_name = L"test", decltype(unload) WinSunProc = unload)
+	{
+		frame.push_back(tg_Frame(name, width, height, class_name, WinSunProc));
+		return 0;
+	};
 	int loop();
-	canvas* GetCanvas() { return &screen; }
-	int* get_pixels() { return screen.getptr(); }
-	int get_w() { return screen.get_w(); }
-	int get_h() { return screen.get_h(); }
+	canvas* GetCanvas(int i) 
+	{ if (i<0 || i>=frame.size())return NULL; return frame[i].GetCanvas(); }
+	int* get_pixels(int i)
+	{ if (i<0 || i>=frame.size())return NULL; return frame[i].get_pixels(); }
+	int get_w(int i) 
+	{ if (i<0 || i>=frame.size())return 0; return frame[i].get_w(); }
+	int get_h(int i) 
+	{ if (i<0 || i>=frame.size())return 0; return frame[i].get_h(); }
 	void insert(decltype(m) t) { work.add(t); }
 	int one_loop();
 private:
 	works work;
-	WNDCLASS wndcls;
-	HWND hwnd;
-	canvas screen;
+	std::vector<tg_Frame> frame;
 };

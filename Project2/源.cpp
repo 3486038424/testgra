@@ -6,13 +6,12 @@ tgra_win* l;
 Image i("C://10.png");
 int k = 0;
 Buffer b;
-
 #include<random>
 tg_vec2d* vecs;
 
 void u()
 {
-	Graphics gra=l->GetCanvas()->get_gra();
+	Graphics* gra=l->GetCanvas(0)->get_gra();
 	for (int i = 0; i < 10; i++)
 	{
 		vecs[i].x += rand() / (float)RAND_MAX * 10 - 5;
@@ -23,7 +22,7 @@ void u()
 	}
 	for (int i = 0; i < 10; i++)
 	{
-		gra.tg_DrawCircle(vecs[i].x, vecs[i].y, 2);
+		gra->tg_DrawCircle(vecs[i].x, vecs[i].y, 2);
 	}
 }
 
@@ -33,9 +32,9 @@ int main() {
 	{
 		vecs[i] = tg_vec2d(rand()/ (float)RAND_MAX*400,0);
 	}
-	l = new tgra_win(L"第0列", 400, 400);
+	l = new tgra_win();
+	l->new_tg_Frame(L"第0列", 400, 400);
 	l->insert(u);
-	l->one_loop();
 	l->loop();
 	return 0;
 }
