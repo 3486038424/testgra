@@ -90,6 +90,9 @@ int Graphics::reset(int width,int height)
 	w = width;                 // 宽度
 	h = height;                // 高度
 	len = w * h;
+	std::cout << len << std::endl;
+	delete ptr;
+	delete z_ptr;
 	ptr = (int*)malloc(width * height * 4);  // 4字节per像素
 	z_ptr = (int*)malloc(width * height * 4);  // 4字节per像素
 	return 0;

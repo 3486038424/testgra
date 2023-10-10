@@ -60,7 +60,7 @@ public:
 	{
 		k = 0;
 		frameCount++;
-		for (int i = 0; i < h * w; i++) { ptr[(i)] = RGB(255, 255, 0); z_ptr[i] = -1; }
+		for (int i = 0; i < h * w; i++) { ptr[(i)] = RGB(255, 255, 255); z_ptr[i] = -1; }
 		return 0;
 	};
 };

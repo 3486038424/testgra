@@ -10,5 +10,5 @@ public:
 	int* image;
 	unsigned int width,height,depth;
 	int get_color(int k);
-	Image(const char* str);
+	Image(const char* str, int ways = 3);
 };

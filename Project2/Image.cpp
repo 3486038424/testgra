@@ -6,13 +6,19 @@
 #include "lodepng.h"
 
 
-Image::Image(const char* str) {
+Image::Image(const char* str,int ways) {
 	std::vector<unsigned char> img;
 	unsigned error = lodepng::decode(img, width, height, str, LCT_RGB, 8);
-	len = img.size()/3;
+	len = img.size()/ways;
 	image=(int*)malloc(len * 4);
+	if(ways==3)
 	for (int i = 0; i < len; i++)
 		image[i] = RGB(img[i*3+2],img[i*3+1],img[i*3]);
+	else
+	{
+		for (int i = 0; i < len; i++)
+			image[i] = RGB(img[i * 3 + 3], img[i * 3 + 2], img[i * 3 + 1], img[i * 3]);
+	}
 	if (error) {
 		std::cout << "error " << error << ": " << lodepng_error_text(error) << std::endl;
 		return;
