@@ -36,14 +36,17 @@ class Graphics
 {
 	int w, h;
 	int frameCount;
-	int* ptr;
-	int* z_ptr;
+	int* ptr = NULL;
+	int* z_ptr = NULL;
+	int* p = NULL;
+	int* z = NULL;
 	int k;
 	int len;
 	tg_vec2d* line(tg_vec2d begin, tg_vec2d end, int& l_s);
 	bool set_pixel(int x, int y, int rgb);
 	bool set_pixel(int vec, int rgb);
 public:
+	void delete_zp() { delete z; delete p; z = NULL; p = NULL; }
 	int get_h() { return h - 1; }
 	int get_w() { return w - 1; }
 	int* getptr() { return ptr; }
@@ -60,7 +63,8 @@ public:
 	{
 		k = 0;
 		frameCount++;
-		for (int i = 0; i < h * w; i++) { ptr[(i)] = RGB(255, 255, 255); z_ptr[i] = -1; }
+		for (int i = 0; i < len; i++) { ptr[i] = RGB(255, 255, 255); z_ptr[i] = -1; }
+		if (p != NULL)delete_zp();
 		return 0;
 	};
 };

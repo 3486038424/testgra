@@ -6,23 +6,20 @@ int tgra_win::loop()
 	{
 		if (frame.size() <= 0)break;
 		MSG msg;
-		while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
-			if (IsWindow(frame[0]->get_hwnd()))
-			if (msg.message == 161)
-			{
-				switch (msg.wParam)
+		for (int i = 0; i < frame.size(); i++) {
+			while (PeekMessage(&msg, frame[i]->get_hwnd(), 0, 0, PM_REMOVE)) {
+				TranslateMessage(&msg);
+				DispatchMessage(&msg);
+				if (msg.message == 161)
 				{
-				case 2:
-				case 9:
-				case 11:
-				case 15:
-				case 17:
-					for (int i = 0; i < frame.size(); i++)
+					switch (msg.wParam)
 					{
-						if (msg.hwnd == frame[i]->get_hwnd())
-						{
-							frame[i]->GetCanvas()->reset(); break;
-						}
+					case 2:
+					case 9:
+					case 11:
+					case 15:
+					case 17:
+						frame[i]->GetCanvas()->reset();
 					}
 				}
 			}

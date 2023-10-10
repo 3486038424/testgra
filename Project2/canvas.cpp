@@ -20,7 +20,7 @@ int canvas::init(HWND hwnd)
 }
 int canvas::draw()
 {
-	SetDIBitsToDevice(screenDC, 0, 0, gra.get_h()+1, gra.get_h()+1, 0, 0, 0, gra.get_h()+1, 
+	SetDIBitsToDevice(screenDC, 0, 0, gra.get_w()+1, gra.get_h()+1, 0, 0, 0, gra.get_h()+1, 
 		gra.getptr(), &info, DIB_RGB_COLORS);
 	return 0;
 }

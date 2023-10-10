@@ -3,7 +3,7 @@
 #include <cmath>
 bool Graphics::set_pixel(int x, int y, int rgb)
 {
-	if (x<0 || x>w || y<0 || y>h)return false;
+	if (x<=0 || x>=w || y<=0 || y>=h)return false;
 	ptr[y * w + x] = rgb;
 	return true;
 }
@@ -90,11 +90,10 @@ int Graphics::reset(int width,int height)
 	w = width;                 // ¿í¶È
 	h = height;                // ¸ß¶È
 	len = w * h;
-	std::cout << len << std::endl;
-	delete ptr;
-	delete z_ptr;
-	ptr = (int*)malloc(width * height * 4);  // 4×Ö½ÚperÏñËØ
-	z_ptr = (int*)malloc(width * height * 4);  // 4×Ö½ÚperÏñËØ
+	p = ptr;
+	z = z_ptr;
+	ptr = (int*)malloc(len * 4);  // 4×Ö½ÚperÏñËØ
+	z_ptr = (int*)malloc(len * 4);  // 4×Ö½ÚperÏñËØ
 	return 0;
 }
 template<typename T>

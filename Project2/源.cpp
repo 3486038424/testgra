@@ -2,11 +2,10 @@
 #include"tgra_win.h"
 #include <time.h>
 #include<iostream>
-tgra_win* l;
-Image i("C://10.png");
-int k = 0;
-Buffer b;
 #include<random>
+tgra_win* l;
+//Image i("E://t.png");
+int k = 0;
 tg_vec2d* vecs;
 
 void u()
@@ -38,6 +37,3 @@ int main() {
 	l->loop();
 	return 0;
 }
-
-//问题之一，目前事件链依旧存在仅可以使用void空函数，需要进行修改，考虑增加抽象类控制。
-//除去抽象类以外，考虑增加数值传入，不算合适，但可以。抽象类作为传参指针，进入函数后手动变换指针。(考虑到高版本的c++学习成本，慎重考虑该方案）
