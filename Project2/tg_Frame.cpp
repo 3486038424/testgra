@@ -37,6 +37,7 @@ int tg_Frame::before_work()
 	Pmouse = mouse;
 	GetCursorPos(&mouse);
 	ScreenToClient(hwnd, &mouse);
+	mouse.y = screen.get_h() - mouse.y;
 	return 0;
 }
 

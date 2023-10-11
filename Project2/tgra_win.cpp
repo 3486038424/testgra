@@ -24,6 +24,8 @@ int tgra_win::loop()
 					if (msg.hwnd == frame[i]->get_hwnd()) {
 						if (msg.message == 161)
 						{
+							frame[i]->GetCanvas()->reset();
+							/*
 							switch (msg.wParam)
 							{
 							case 2:
@@ -32,7 +34,7 @@ int tgra_win::loop()
 							case 15:
 							case 17:
 								frame[i]->GetCanvas()->reset();
-							}
+							}*/
 						}
 						else if (msg.message == WM_LBUTTONDOWN)
 						{

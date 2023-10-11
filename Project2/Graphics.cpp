@@ -1,28 +1,48 @@
 #include "Graphics.h"
 #include <iostream>
 #include <cmath>
+
+void mix_color(int& color,int &goal)
+{
+	int a = (0xFF000000 & color)>>24;
+	if (((color & 0xffffff) == (goal & 0xffffff)) || a < 2) {
+		goal = color & 0xffffff; return;
+	}
+	if (a > 253)return;
+	float alpha = a / 255.0;
+	goal = RGB(
+		(int(((0xFF0000 & color) >> 16) * (1 - alpha) + ((0xFF0000 & goal) >> 16) * alpha)) & 0xFF,
+		(int(((0xFF00 & color) >> 8) * (1 - alpha) + ((0xFF00 & goal) >> 8) * alpha)) & 0xFF,
+		(int(((0xFF & color)) * (1 - alpha) + ((0xFF & goal)) * alpha)) & 0xFF
+	);
+};
 bool Graphics::set_pixel(int x, int y, int rgb)
 {
 	if (x<=0 || x>=w || y<=0 || y>=h)return false;
-	ptr[y * w + x] = rgb;
+	mix_color(rgb, ptr[y * w + x]);
+	//ptr[y * w + x] = rgb;
 	return true;
 }
 bool Graphics::set(int x, int y)
 {
 	if (x <= 0 || x >= w || y <= 0 || y >= h)return false;
-	ptr[y * w + x] = fill_rgb;
+	mix_color(fill_rgb, ptr[y * w + x]);
+	//std::cout<<std::hex << ptr[y * w + x] << std::endl;
+	//ptr[y * w + x] = fill_rgb;
 	return true;
 }
 bool Graphics::set(int vec)
 {
 	if (vec<0 || vec>len)return false;
-	ptr[vec] = fill_rgb;
+	mix_color(fill_rgb, ptr[vec]);
+	//ptr[vec] = fill_rgb;
 	return true;
 }
 bool Graphics::set_pixel(int vec, int rgb)
 {
-	if (vec<0||vec>len)return false;
-	ptr[vec] = rgb;
+	if (vec<0 || vec>len)return false;
+	mix_color(fill_rgb, ptr[vec]);
+	//ptr[vec] = rgb;
 	return true;
 }
 
@@ -103,9 +123,7 @@ int Graphics::reset(int width,int height)
 	h = height;                // 高度
 	len = w * h;
 	p = ptr;
-	z = z_ptr;
 	ptr = (int*)malloc(len * 4);  // 4字节per像素
-	z_ptr = (int*)malloc(len * 4);  // 4字节per像素
 	return 0;
 }
 template<typename T>

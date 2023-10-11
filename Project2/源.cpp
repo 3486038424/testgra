@@ -11,13 +11,8 @@ int wheel=125;
 void u()
 {
 	Graphics* gra=l->GetCanvas(0)->get_gra();
-	int rgb = gra->frameCount();
+	gra->background(RGBA(0, 0, 0, 212));
 	POINT mouse = l->get_Frame(0)->get_mouse();
-	wheel+=l->get_Frame(0)->wheel_position*10;
-	if (l->keystate['A'])
-	{
-		gra->fill(RGB(255, wheel, 255));
-	}
 	for (int i = 0; i < 10; i++)
 	{
 		vecs[i].x += rand() / (float)RAND_MAX * 10 - 5;
@@ -30,6 +25,7 @@ void u()
 	{
 		gra->tg_DrawCircle(vecs[i].x, vecs[i].y, 2);
 	}
+	gra->tg_DrawCircle(mouse.x,mouse.y, 8);
 }
 
 int main() {
@@ -42,6 +38,7 @@ int main() {
 	l->frameRate(100);
 	l->new_tg_Frame(L"╣з0ап", 400, 400);
 	l->insert(u);
+	l->GetCanvas(0)->get_gra()->fill(RGBA(255, 255, 255, 0));
 	l->loop();
 	return 0;
 }

@@ -2,6 +2,7 @@
 #include<Windows.h>
 #include"tg_vec2d.h"
 #include "Image.h"
+#define RGBA(r,g,b,a)  ((COLORREF)(((BYTE)(r)|((WORD)((BYTE)(g))<<8))|(((DWORD)(BYTE)(b))<<16))|(((DWORD)(BYTE)(a))<<24))
 class Buffer
 {
 	tg_vec2d* buffer;
@@ -32,17 +33,16 @@ public:
 };
 template<typename T>
 void swap(T& a, T& b);
+void mix_color(int& color, int& goal);
 class Graphics
 {
 	int w, h;
 	int framecount;
 	int* ptr = NULL;
-	int* z_ptr = NULL;
 	int* p = NULL;
-	int* z = NULL;
 	int k;
 	int len;
-	int fill_rgb=RGB(0,0,0);
+	int fill_rgb=RGB(0,0,0,0);
 	tg_vec2d* line(tg_vec2d begin, tg_vec2d end, int& l_s);
 	bool set(int x, int y);
 	bool set(int vec);
@@ -51,7 +51,7 @@ class Graphics
 public:
 	int frameCount() { return framecount; }
 	int fill(int rgb) { fill_rgb = rgb; return 0; }
-	void delete_zp() { delete z; delete p; z = NULL; p = NULL; }
+	void delete_zp() {  delete p; p = NULL; }
 	int get_h() { return h - 1; }
 	int get_w() { return w - 1; }
 	int* getptr() { return ptr; }
@@ -66,14 +66,13 @@ public:
 	int tg_DrawPolygon(tg_vec2d* buffer, int len);
 	int background(int rgb)
 	{
-		for (int i = 0; i < len; i++) { ptr[i] = rgb; z_ptr[i] = -1; }
+		for (int i = 0; i < len; i++) { mix_color(rgb, ptr[i]); }
 		return 0;
 	}
 	int clear()
 	{
 		k = 0;
 		framecount++;
-		background(RGB(255, 255, 255));
 		if (p != NULL)delete_zp();
 		return 0;
 	};
