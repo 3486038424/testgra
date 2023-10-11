@@ -7,10 +7,14 @@ tgra_win* l;
 //Image i("E://t.png");
 int k = 0;
 tg_vec2d* vecs;
-
+int wheel=125;
 void u()
 {
 	Graphics* gra=l->GetCanvas(0)->get_gra();
+	int rgb = gra->frameCount();
+	POINT mouse = l->get_Frame(0)->get_mouse();
+	wheel+=l->get_Frame(0)->wheel_position*10;
+
 	for (int i = 0; i < 10; i++)
 	{
 		vecs[i].x += rand() / (float)RAND_MAX * 10 - 5;
@@ -32,6 +36,7 @@ int main() {
 		vecs[i] = tg_vec2d(rand()/ (float)RAND_MAX*400,0);
 	}
 	l = new tgra_win();
+	l->frameRate(100);
 	l->new_tg_Frame(L"╣з0ап", 400, 400);
 	l->insert(u);
 	l->loop();

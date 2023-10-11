@@ -27,16 +27,25 @@ tg_Frame::tg_Frame(LPCWSTR name, int width, int height, LPCWSTR class_name, decl
 	ShowWindow(hwnd, SW_SHOWNORMAL);//把窗体显示出来
 	UpdateWindow(hwnd);//更新窗体
 	screen.init(hwnd);
+	GetCursorPos(&mouse);
+	ScreenToClient(hwnd, &mouse);
 }
 
 int tg_Frame::before_work()
 {
 	screen.clear();
+	Pmouse = mouse;
+	GetCursorPos(&mouse);
+	ScreenToClient(hwnd, &mouse);
 	return 0;
 }
 
 int tg_Frame::after_work()
 {
 	screen.draw();
+	lmouse_click = false;
+	rmouse_click = false;
+	wheel_click = false;
+	wheel_position = 0;
 	return 0;
 }

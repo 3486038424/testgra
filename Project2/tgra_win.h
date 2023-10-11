@@ -23,7 +23,12 @@ public:
 	{ if (i<0 || i>=frame.size())return 0; return frame[i]->get_h(); }
 	void insert(decltype(m) t) { work.add(t); }
 	int one_loop();
+	bool frameRate(int rate) { framerate = 1000 / rate; return true; }
+	tg_Frame* get_Frame(int index) {
+		if (index < 0 || index >= frame.size())return NULL; return frame[index];
+	}
 private:
 	works work;
+	double framerate=0;
 	std::vector<tg_Frame*> frame;
 };

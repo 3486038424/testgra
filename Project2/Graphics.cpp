@@ -7,6 +7,18 @@ bool Graphics::set_pixel(int x, int y, int rgb)
 	ptr[y * w + x] = rgb;
 	return true;
 }
+bool Graphics::set(int x, int y)
+{
+	if (x <= 0 || x >= w || y <= 0 || y >= h)return false;
+	ptr[y * w + x] = fill_rgb;
+	return true;
+}
+bool Graphics::set(int vec)
+{
+	if (vec<0 || vec>len)return false;
+	ptr[vec] = fill_rgb;
+	return true;
+}
 bool Graphics::set_pixel(int vec, int rgb)
 {
 	if (vec<0||vec>len)return false;
@@ -18,7 +30,7 @@ int Graphics::tg_DrawRect(int b_x, int b_y, int width, int height)
 {
 	for (int i = 0; i < height; i++)
 	{
-		for(int j=0;j<width;j++)set_pixel(b_x+j,b_y+i, RGB(0, 0, 0));
+		for(int j=0;j<width;j++)set(b_x+j,b_y+i);
 	}
 	return 0;
 }
@@ -26,13 +38,13 @@ int Graphics::tg_DrawRect(int b_x, int b_y, int width, int height)
 int Graphics::tg_DrawCircle(int x, int y, int r)
 {
 	int bx=r, by=0;
-	set_pixel(x + r, y , RGB(0, 0, 0));
-	set_pixel(x - r, y , RGB(0, 0, 0));
-	set_pixel(x + r, y , RGB(0, 0, 0));
-	set_pixel(x + r, y , RGB(0, 0, 0));
+	set(x + r, y );
+	set(x - r, y);
+	set(x + r, y);
+	set(x + r, y );
 	for (int i = x - r; i < x + r; i++)
 	{
-		set_pixel(i, y , RGB(0, 0, 0));
+		set(i, y );
 	}
 	r = r * r;
 	while (bx > by)
@@ -43,23 +55,23 @@ int Graphics::tg_DrawCircle(int x, int y, int r)
 		r2 -= r; if (r2 < 0)r2 = -r2;
 		by++;
 		if (r1<=r2)bx--;
-		set_pixel(x + bx, y + by, RGB(0, 0, 0));
-		set_pixel(x + bx, y - by, RGB(0, 0, 0));
-		set_pixel(x - bx, y + by, RGB(0, 0, 0));
-		set_pixel(x - bx, y - by, RGB(0, 0, 0));
-		set_pixel(x + by, y + bx, RGB(0, 0, 0));
-		set_pixel(x + by, y - bx, RGB(0, 0, 0));
-		set_pixel(x - by, y + bx, RGB(0, 0, 0));
-		set_pixel(x - by, y - bx, RGB(0, 0, 0)); 
+		set(x + bx, y + by);
+		set(x + bx, y - by);
+		set(x - bx, y + by);
+		set(x - bx, y - by);
+		set(x + by, y + bx);
+		set(x + by, y - bx);
+		set(x - by, y + bx);
+		set(x - by, y - bx); 
 		for (int i = x - bx; i < x + bx; i++)
 		{
-			set_pixel(i, y + by, RGB(0, 0, 0));
-			set_pixel(i, y - by, RGB(0, 0, 0));
+			set(i, y + by);
+			set(i, y - by);
 		}
 		for (int i = x - by; i < x + by; i++)
 		{
-			set_pixel(i, y + bx, RGB(0, 0, 0));
-			set_pixel(i, y - bx, RGB(0, 0, 0));
+			set(i, y + bx);
+			set(i, y - bx);
 		}
 	}
 	return 0;
@@ -82,7 +94,7 @@ void Graphics::drawpic(Image img, int x, int y, int delta_x, int delta_y)
 }
 int Graphics::init(int width,int height)
 {
-	frameCount = 0;
+	framecount = 0;
 	return reset(width,height);
 }
 int Graphics::reset(int width,int height)
@@ -131,7 +143,7 @@ int Graphics::tg_DrawLine(tg_vec2d begin, tg_vec2d end)
 	tg_vec2d* d = line(begin, end, l_s);
 	for (auto it = 0; it != l_s; it++)
 	{
-		set_pixel(int(d[it].x * w + d[it].y), RGB(255, 0, 0));
+		set(int(d[it].x * w + d[it].y));
 	}
 	delete d;
 	return 0;
@@ -151,7 +163,7 @@ int Graphics::tg_DrawTriangle(tg_vec2d v1, tg_vec2d v2, tg_vec2d v3)
 	while (len3 != ls3)
 	{
 		int offset = l3[len3].y * w;
-		for (int i = l3[len3].x; i != l1[len1].x; i+=d)set_pixel(offset + i, RGB(0, 0, 0));
+		for (int i = l3[len3].x; i != l1[len1].x; i+=d)set(offset + i);
 		len3++;
 		while (l3[len3 - 1].y == l3[len3].y)len3++;
 		while (len1 < ls1 && l3[len3].y != l1[len1].y)len1++;
