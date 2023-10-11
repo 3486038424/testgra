@@ -27,6 +27,7 @@ public:
 	tg_Frame* get_Frame(int index) {
 		if (index < 0 || index >= frame.size())return NULL; return frame[index];
 	}
+	std::bitset<256> keystate;
 private:
 	works work;
 	double framerate=0;

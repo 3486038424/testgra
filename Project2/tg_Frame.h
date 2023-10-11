@@ -26,7 +26,6 @@ public:
 	bool rmouse_click = false;
 	bool wheel_click = false;
 	short wheel_position = 0;
-	std::bitset<256> keystate;
 private:
 	WNDCLASS wndcls;
 	HWND hwnd;

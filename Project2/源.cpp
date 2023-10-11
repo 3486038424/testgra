@@ -14,7 +14,10 @@ void u()
 	int rgb = gra->frameCount();
 	POINT mouse = l->get_Frame(0)->get_mouse();
 	wheel+=l->get_Frame(0)->wheel_position*10;
-
+	if (l->keystate['A'])
+	{
+		gra->fill(RGB(255, wheel, 255));
+	}
 	for (int i = 0; i < 10; i++)
 	{
 		vecs[i].x += rand() / (float)RAND_MAX * 10 - 5;
