@@ -44,11 +44,12 @@ class Graphics
 	int len;
 	int fill_rgb=RGB(0,0,0,0);
 	tg_vec2d* line(tg_vec2d begin, tg_vec2d end, int& l_s);
+	friend class tg_font;
 	bool set(int x, int y);
 	bool set(int vec);
-	bool set_pixel(int x, int y, int rgb);
 	bool set_pixel(int vec, int rgb);
 public:
+	bool set_pixel(int x, int y, int rgb);
 	int frameCount() { return framecount; }
 	int fill(int rgb) { fill_rgb = rgb; return 0; }
 	void delete_zp() {  delete p; p = NULL; }

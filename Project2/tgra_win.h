@@ -2,6 +2,7 @@
 #include<iostream>
 #include<time.h>
 #include<vector>
+#include "tg_font.h"
 #include "tg_Frame.h"
 #include "works.h"
 class tgra_win
